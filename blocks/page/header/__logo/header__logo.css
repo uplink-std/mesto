@@ -1,0 +1,14 @@
+.header__logo {
+  display: block;
+  object-fit: contain;
+  width: min(142px, 16vw);
+  height: 100%;
+  transition: all ease .5s;
+}
+
+@media all and (max-width: 699px) {
+  .header__logo {
+    width: max(104px, 16vw);
+    margin-left: 27px;
+  }
+}
