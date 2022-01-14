@@ -1,4 +1,16 @@
 .page__container {
-  max-width: 1280px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  max-width: min(68.75vw, 880px);
+  min-width: 320px;
+  margin: min(45px, 3.51625vw) auto min(60px, 4.6875vw);
+  transition: margin ease .5s;
+}
+
+@media all and (max-width: 699px) {
+  .page__container {
+    margin: max(19px, 3.51625vw) auto max(36px, 2.8125vw);
+  }
 }
