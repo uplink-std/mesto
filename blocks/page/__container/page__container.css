@@ -11,6 +11,6 @@
 
 @media all and (max-width: 699px) {
   .page__container {
-    margin: max(19px, 3.51625vw) auto max(36px, 2.8125vw);
+    margin: max(28px, 8.4375vw) auto max(36px, 11.25vw);
   }
 }
