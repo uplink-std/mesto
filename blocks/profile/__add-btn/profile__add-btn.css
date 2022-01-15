@@ -8,6 +8,7 @@
   box-sizing: border-box;
   border-radius: 2px;
   min-width: 150px;
+  min-height: 50px;
   max-height: 50px;
   flex-wrap: wrap;
 }
