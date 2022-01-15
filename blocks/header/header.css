@@ -6,7 +6,7 @@
   margin-bottom: 40px;
 }
 
-@media all and (max-width: 699px) {
+@media all and (max-width: 880px) {
   .header {
     min-height: max(56px, 9vw);
     margin-bottom: 42px;
