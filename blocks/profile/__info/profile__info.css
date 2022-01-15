@@ -1,3 +1,16 @@
 .profile__info {
+  display: grid;
+  align-items: baseline;
+  grid-template-columns: max-content 1fr;
+  grid-template-areas:  "name edit-btn"
+                        "occupation occupation";
+  width: 100%;
+}
 
+@media all and (max-width: 699px) {
+  .profile__info {
+    grid-template-areas:  ". name edit-btn"
+                          "occupation occupation occupation";
+    grid-template-columns: 1fr max-content 1fr;
+  }
 }

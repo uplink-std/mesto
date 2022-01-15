@@ -3,10 +3,12 @@
   width: 100%;
   min-height: min(74px, 9vw);
   border-bottom: 1px solid rgba(84, 84, 84, .7);
+  margin-bottom: 40px;
 }
 
 @media all and (max-width: 699px) {
   .header {
     min-height: max(56px, 9vw);
+    margin-bottom: 42px;
   }
 }

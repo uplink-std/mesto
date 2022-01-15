@@ -1,9 +1,20 @@
 .profile__info-name {
-  margin: 0;
+  margin: 0 18px 0 0;
   color: #fff;
   font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 42px;
   line-height: 1.14; /* 48px;*/
+  text-align: left;
+  grid-area: name;
+}
+
+@media all and (max-width: 699px) {
+  .profile__info-name {
+    text-align: center;
+    font-size: 27px;
+    line-height: 1.22; /* 33px;*/
+    margin-right: 10px;
+  }
 }

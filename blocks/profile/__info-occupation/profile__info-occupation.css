@@ -6,4 +6,14 @@
   font-weight: normal;
   font-size: 18px;
   line-height: 1.22; /* 22px;*/
+  text-align: left;
+  grid-area: occupation;
+}
+
+@media all and (max-width: 699px) {
+  .profile__info-occupation {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2143; /* 22px;*/
+  }
 }
