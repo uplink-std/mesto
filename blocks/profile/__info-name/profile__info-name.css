@@ -1,5 +1,5 @@
 .profile__info-name {
-  margin: 0 18px 0 0;
+  margin: 0 18px 10px 0;
   color: #fff;
   font-family: 'Inter', sans-serif;
   font-style: normal;
@@ -15,6 +15,6 @@
     text-align: center;
     font-size: 27px;
     line-height: 1.22; /* 33px;*/
-    margin-right: 10px;
+    margin: 0 10px 6px 0;
   }
 }
