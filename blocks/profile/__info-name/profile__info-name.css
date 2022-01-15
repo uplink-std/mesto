@@ -10,7 +10,7 @@
   grid-area: name;
 }
 
-@media all and (max-width: 699px) {
+@media all and (max-width: 620px) {
   .profile__info-name {
     text-align: center;
     font-size: 27px;

@@ -10,7 +10,7 @@
   grid-area: occupation;
 }
 
-@media all and (max-width: 699px) {
+@media all and (max-width: 620px) {
   .profile__info-occupation {
     text-align: center;
     font-size: 14px;

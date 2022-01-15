@@ -11,7 +11,7 @@
   min-height: 24px;
 }
 
-@media all and (max-width: 699px) {
+@media all and (max-width: 880px) {
   .profile__edit-btn {
     min-width: 18px;
     min-height: 18px;
