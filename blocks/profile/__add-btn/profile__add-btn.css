@@ -17,5 +17,6 @@
   .profile__add-btn {
     min-width: 282px;
     min-height: 50px;
+    margin: 0 0 11px;
   }
 }
