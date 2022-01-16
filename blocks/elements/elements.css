@@ -2,4 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 0 66px;
+}
+
+@media all and (max-width: 620px) {
+  .elements {
+    margin: 0 0 48px;
+  }
 }
