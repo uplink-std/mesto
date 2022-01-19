@@ -1,0 +1,21 @@
+.profile-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 32px 33px 36px;
+  background: #FFF;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  min-width: 430px;
+  min-height: 319px;
+  box-sizing: border-box;
+}
+
+@media all and (max-width: 620px) {
+  .profile-form {
+    padding: 25px 22px;
+    min-width: 282px;
+  }
+}

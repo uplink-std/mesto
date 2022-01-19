@@ -3,32 +3,104 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mesto Russia</title>
+    <title>Проект: Место</title>
     <link rel="stylesheet" href="pages/index.css">
   </head>
   <body class="page">
     <div class="page__container">
 
       <header class="header">
-      <!-- TODO: implement header -->
+        <img class="header__logo" src="./images/logo.svg" alt="логотип mesto">
       </header>
 
-      <main class="main">
+      <main class="content">
 
         <section class="profile">
-          <!-- TODO: implement profile -->
+          <img class="profile__avatar" src="./images/avatar.jpg" alt="аватар персоны">
+          <div class="profile__info">
+            <h1 class="profile__info-name abridgment">Жак-Ив Кусто</h1>
+            <p class="profile__info-occupation abridgment">Исследователь океана</p>
+            <button class="profile__edit-btn" type="button"></button>
+          </div>
+          <button class="profile__add-btn" type="button"></button>
         </section>
 
         <section class="elements">
-          <!-- TODO: implement elements -->
+          <ul class="elements__list">
+            <li class="element">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
+              <div class="element__info">
+                <p class="element__name abridgment">Карачаевск</p>
+                <button class="element__like-btn" type="button"></button>
+              </div>
+            </li>
+
+            <li class="element">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
+              <div class="element__info">
+                <p class="element__name abridgment">Карачаевск</p>
+                <button class="element__like-btn" type="button"></button>
+              </div>
+            </li>
+
+            <li class="element">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
+              <div class="element__info">
+                <p class="element__name abridgment">Карачаевск</p>
+                <button class="element__like-btn" type="button"></button>
+              </div>
+            </li>
+
+            <li class="element">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
+              <div class="element__info">
+                <p class="element__name abridgment">Карачаевск</p>
+                <button class="element__like-btn" type="button"></button>
+              </div>
+            </li>
+
+            <li class="element">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
+              <div class="element__info">
+                <p class="element__name abridgment">Карачаевск</p>
+                <button class="element__like-btn element__like-btn_active" type="button"></button>
+              </div>
+            </li>
+
+            <li class="element">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
+              <div class="element__info">
+                <p class="element__name abridgment">Карачаевск</p>
+                <button class="element__like-btn element__like-btn_active" type="button"></button>
+              </div>
+            </li>
+
+          </ul>
         </section>
 
       </main>
 
       <footer class="footer">
-        <!-- TODO: implement footer -->
+        <p class="footer__copyright">&copy;&nbsp;2022&nbsp;Александр&nbsp;Зиновьев</p>
       </footer>
 
     </div>
+    <div class="popup">
+      <div class="popup__container">
+        <form class="profile-form form">
+          <button class="profile-form__close-btn" type="button"></button>
+          <h2 class="profile-form__title">Редактировать&nbsp;профиль</h2>
+          <label class="form__label">
+            <input class="profile-form__name form__input" type="text" value="Жак-Ив Кусто">
+          </label>
+          <label class="form__label">
+            <input class="profile-form__occupation form__input" type="text" value="Исследователь океана">
+          </label>
+          <button class="profile-form__save-btn">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="./index.js"></script>
   </body>
 </html>
