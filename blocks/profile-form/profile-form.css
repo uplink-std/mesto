@@ -15,6 +15,7 @@
 
 @media all and (max-width: 620px) {
   .profile-form {
+    padding: 25px 22px;
     min-width: 282px;
   }
 }
