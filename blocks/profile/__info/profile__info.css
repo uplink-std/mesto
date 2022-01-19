@@ -19,7 +19,7 @@
 @media all and (max-width: 620px) {
   .profile__info {
     grid-template-areas:  ". name edit-btn"
-                          "occupation occupation occupation";
+                          ". occupation .";
     grid-template-columns: 1fr max-content 1fr;
     width: 100%;
     margin: 0;
