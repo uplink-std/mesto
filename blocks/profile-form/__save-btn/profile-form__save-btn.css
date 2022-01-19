@@ -1,3 +1,15 @@
 .profile-form__save-btn {
-
+  width: 100%;
+  min-height: 49px;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22; /* 22px */
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+  border-radius: 2px;
 }

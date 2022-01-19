@@ -1,6 +1,9 @@
 @import url(../vendor/normalize.css);
 @import url(../vendor/inter/inter.css);
 @import url(../blocks/abridgment/abridgment.css);
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__label/form__label.css);
+@import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/page/_noscroll/page_noscroll.css);
 @import url(../blocks/page/__container/page__container.css);
