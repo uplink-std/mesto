@@ -17,6 +17,7 @@
 @media all and (max-width: 620px) {
   .profile-form__close-btn {
     --button-size: 20px;
+    top: calc(-16px - var(--button-size));
     right: 0;
   }
 }
