@@ -1,0 +1,23 @@
+.profile-form__close-btn {
+  position: absolute;
+  --button-size: 32px;
+  top: calc(-8px - var(--button-size));
+  right: calc(-8px - var(--button-size));
+  min-width:  var(--button-size);
+  min-height: var(--button-size);
+  background-image: url(./../../../images/close-icon.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  background-color: rgba(0, 0, 0, .6);
+  border: none;
+  padding: 0;
+}
+
+@media all and (max-width: 620px) {
+  .profile-form__close-btn {
+    --button-size: 20px;
+    top: calc(-16px - var(--button-size));
+    right: 0;
+  }
+}
