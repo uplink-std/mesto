@@ -8,6 +8,7 @@
   line-height: 1.14; /* 48px;*/
   text-align: left;
   grid-area: name;
+  max-width: 400px;
 }
 
 @media all and (max-width: 620px) {
@@ -16,5 +17,6 @@
     font-size: 27px;
     line-height: 1.22; /* 33px;*/
     margin: 0 10px 6px 0;
+    max-width: 200px;
   }
 }
