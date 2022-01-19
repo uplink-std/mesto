@@ -13,3 +13,8 @@
   background-color: #000;
   border-radius: 2px;
 }
+
+.profile-form__save-btn:hover {
+  opacity: .8;
+  cursor: pointer;
+}
