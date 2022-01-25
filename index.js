@@ -12,27 +12,15 @@ function ProfileEditForm (state) {
     closeButton: '.profile-form__close-btn',
   };
 
-  const disableScrolling = () => {
-    const x=window.scrollX;
-    const y=window.scrollY;
-    window.onscroll=function(){window.scrollTo(x, y);};
-  }
-
-  const enableScrolling = () => {
-    window.onscroll=function(){};
-  }
-
   const renderPopup = (enabled) => {
     const popupElement = document.querySelector(selectors.popup);
 
     if (enabled) {
       popupElement.classList.add(selectors.popupOpenClass);
-      disableScrolling();
       return;
     }
 
     popupElement.classList.remove(selectors.popupOpenClass);
-    enableScrolling();
   };
 
   const renderInput = ( formElement, selector, value ) => {
