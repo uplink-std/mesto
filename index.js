@@ -1,160 +1,61 @@
-function ProfileEditForm (state) {
+/* 1. Нужно найти все используемые переменные */
 
-  this.state = { ...state };
-
-  const selectors = {
-    page: '.page',
-    popup: '.popup',
-    popupOpenClass: 'popup_opened',
-    form: '.profile-form',
-    nameInput: '.profile-form__name',
-    occupationInput: '.profile-form__occupation',
-    closeButton: '.profile-form__close-btn',
-  };
-
-  const renderPopup = (enabled) => {
-    const popupElement = document.querySelector(selectors.popup);
-
-    if (enabled) {
-      popupElement.classList.add(selectors.popupOpenClass);
-      return;
-    }
-
-    popupElement.classList.remove(selectors.popupOpenClass);
-  };
-
-  const renderInput = ( formElement, selector, value ) => {
-    const inputElement = formElement.querySelector(selector);
-    inputElement.value = value;
-  }
-
-  const renderName = ( formElement, name ) => {
-    renderInput(formElement, selectors.nameInput, name);
-  }
-
-  const renderOccupation = ( formElement, occupation ) => {
-    renderInput(formElement, selectors.occupationInput, occupation);
-  }
-
-  this.render = () => {
-    renderPopup(this.state.enabled);
-    if (this.state.enabled) {
-      const formElement = document.querySelector(selectors.form);
-      renderName(formElement, this.state.profile.name);
-      renderOccupation(formElement, this.state.profile.occupation);
-    }
-  }
-
-  this.setProfile = (profile) => {
-    this.state.profile = profile;
-  }
-
-  const updateState = () => {
-    const formElement = document.querySelector(selectors.form);
-    this.state.profile = {
-      name: formElement.querySelector(selectors.nameInput).value,
-      occupation: formElement.querySelector(selectors.occupationInput).value
-    };
-  }
-
-  this.show = () => {
-    this.state.enabled = true;
-    this.render();
-  }
-
-  this.hide = () => {
-    this.state.enabled = false;
-    this.render();
-  }
-
-  const bind = () => {
-    const formElement = document.querySelector(selectors.form);
-    const closeButton = formElement.querySelector(selectors.closeButton);
-    closeButton.addEventListener( 'click', this.hide );
-
-    formElement.addEventListener( 'submit', (event) => {
-      event.preventDefault();
-      updateState();
-      this.onSave(this.state.profile);
-    });
-  }
-
-  this.onSave = (profile) => {
-    console.dir(profile);
-  }
-
-  bind();
-  this.render();
-}
-
-function ProfileInfo(state) {
-
-  this.state = { ...state };
-
-  const selectors = {
-    name: '.profile__info-name',
-    occupation: '.profile__info-occupation',
-    avatar: '.profile__avatar',
-    editButton: '.profile__edit-btn',
-    addButton: '.profile__add-btn'
-  }
-
-  const renderTextValue = (selector, value) => {
-    const textElement = document.querySelector(selector);
-    textElement.textContent = value;
-  }
-
-  const renderName = (name) => {
-    renderTextValue(selectors.name, name);
-  }
-
-  const renderOccupation = (occupation) => {
-    renderTextValue(selectors.occupation, occupation);
-  }
-
-  this.render = () => {
-    renderName(this.state.profile.name);
-    renderOccupation(this.state.profile.occupation);
-  }
-
-  const bind = () => {
-    const editButton = document.querySelector(selectors.editButton);
-    editButton.addEventListener( 'click', () => {
-      this.onEdit(this.state.profile);
-    } )
-  }
-
-  this.setProfile = (profile) => {
-    this.state.profile = profile;
-  }
-
-  this.onEdit = (profile) => {
-     console.dir(profile);
-  };
-
-  bind();
-  this.render();
-}
-
-const profile = {
-  name: "Жак-Ив Кусто",
-  occupation: "Исследователь океана"
+const SELECTORS = {
+  page: '.page',
+  popup: '.popup',
+  popupOpenClass: 'popup_opened',
+  form: '.profile-form',
+  nameInput: '.profile-form__name',
+  occupationInput: '.profile-form__occupation',
+  closeButton: '.profile-form__close-btn',
+  name: '.profile__info-name',
+  occupation: '.profile__info-occupation',
+  avatar: '.profile__avatar',
+  editButton: '.profile__edit-btn',
+  addButton: '.profile__add-btn',
 };
 
-const initialize = () => {
-  const profileEditForm = new ProfileEditForm( { profile, enable: false });
-  const profileInfo = new ProfileInfo({ profile });
+const profileName = document.querySelector(SELECTORS.name);
+const profileOccupation = document.querySelector(SELECTORS.occupation);
+const popupElement = document.querySelector(SELECTORS.popup);
+const formElement = document.querySelector(SELECTORS.form);
+const nameInput = formElement.querySelector(SELECTORS.nameInput);
+const occupationInput = formElement.querySelector(SELECTORS.occupationInput);
+const closeButton = formElement.querySelector(SELECTORS.closeButton);
+const editButton = document.querySelector(SELECTORS.editButton);
 
-  profileInfo.onEdit = (profile) => {
-    profileEditForm.setProfile(profile);
-    profileEditForm.show();
-  }
+/* 2. Описать функции открытия попапа, закрытия попапа и сабмита формы  */
 
-  profileEditForm.onSave = (profile) => {
-    profileInfo.setProfile(profile);
-    profileInfo.render();
-    profileEditForm.hide();
-  }
+const openPopup = () => {
+  popupElement.classList.add(SELECTORS.popupOpenClass);
 }
 
-initialize();
+const setFormProfile = () => {
+  nameInput.value = profileName.textContent;
+  occupationInput.value = profileOccupation.textContent;
+}
+
+const closePopup = () => {
+  popupElement.classList.remove(SELECTORS.popupOpenClass);
+}
+
+const saveProfile = (e) => {
+  profileName.textContent = nameInput.value;
+  profileOccupation.textContent = occupationInput.value;
+}
+
+/* 3. Повесить обработчики на кнопки открытия попапа редактирования профиля, нажатие на крестик, сабмит формы */
+
+closeButton.addEventListener( 'click', closePopup );
+
+editButton.addEventListener( 'click', () => {
+  setFormProfile();
+  openPopup();
+});
+
+formElement.addEventListener( 'submit', (e) => {
+    e.preventDefault();
+    saveProfile();
+    closePopup();
+  }
+);
