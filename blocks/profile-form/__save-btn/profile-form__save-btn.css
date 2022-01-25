@@ -18,3 +18,10 @@
   opacity: .8;
   cursor: pointer;
 }
+
+@media all and (max-width: 620px) {
+  .profile-form__save-btn {
+    font-size: 14px;
+    line-height: 1.21; /* 17px */
+  }
+}
