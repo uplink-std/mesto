@@ -1,5 +1,3 @@
-/* 1. Нужно найти все используемые переменные */
-
 const SELECTORS = {
   page: '.page',
   popup: '.popup',
@@ -15,6 +13,16 @@ const SELECTORS = {
   addButton: '.profile__add-btn',
 };
 
+const CARD_SELECTORS = {
+  template: '#element-template',
+  element: '.element',
+  photo: '.element__photo',
+  name: '.element__name',
+  likeButton: '.element__like-btn',
+  likeButtonActiveClass: 'element__like-btn_active',
+  cardsContainer: '.elements__list'
+}
+
 const profileName = document.querySelector(SELECTORS.name);
 const profileOccupation = document.querySelector(SELECTORS.occupation);
 const popupElement = document.querySelector(SELECTORS.popup);
@@ -23,8 +31,7 @@ const nameInput = formElement.querySelector(SELECTORS.nameInput);
 const occupationInput = formElement.querySelector(SELECTORS.occupationInput);
 const closeButton = formElement.querySelector(SELECTORS.closeButton);
 const editButton = document.querySelector(SELECTORS.editButton);
-
-/* 2. Описать функции открытия попапа, закрытия попапа и сабмита формы  */
+const cardsContainer = document.querySelector(CARD_SELECTORS.cardsContainer);
 
 const openPopup = () => {
   popupElement.classList.add(SELECTORS.popupOpenClass);
@@ -39,12 +46,47 @@ const closePopup = () => {
   popupElement.classList.remove(SELECTORS.popupOpenClass);
 }
 
-const saveProfile = (e) => {
+const saveProfile = () => {
   profileName.textContent = nameInput.value;
   profileOccupation.textContent = occupationInput.value;
 }
 
-/* 3. Повесить обработчики на кнопки открытия попапа редактирования профиля, нажатие на крестик, сабмит формы */
+const toggleLike = (likeButtonElement) => {
+  likeButtonElement.classList.toggle(CARD_SELECTORS.likeButtonActiveClass);
+}
+
+const initCardPhoto = (cardElement, card) => {
+  const photoElement = cardElement.querySelector(CARD_SELECTORS.photo);
+  photoElement.src = card.photo;
+  photoElement.alt = card.photoDesc;
+}
+
+const initCardName = (cardElement, card) => {
+  const nameElement = cardElement.querySelector(CARD_SELECTORS.name);
+  nameElement.textContent = card.name;
+}
+
+const initCardLikeButton = (cardElement, card) => {
+  const likeButtonElement = cardElement.querySelector(CARD_SELECTORS.likeButton);
+  if (card.liked) {
+    likeButtonElement.classList.add(CARD_SELECTORS.likeButtonActiveClass);
+  }
+  likeButtonElement.addEventListener( 'click', (event) => toggleLike(event.target) );
+}
+
+const createCardElement = (card) => {
+  const cardElementTemplate = document.querySelector(CARD_SELECTORS.template).content;
+  const cardElement = cardElementTemplate.querySelector(CARD_SELECTORS.element).cloneNode(true);
+  initCardPhoto(cardElement, card);
+  initCardName(cardElement, card);
+  initCardLikeButton(cardElement, card);
+  return cardElement;
+}
+
+const addCards = (cards) => {
+  const elements = cards.map( (card) => createCardElement(card));
+  cardsContainer.append( ...elements );
+}
 
 closeButton.addEventListener( 'click', closePopup );
 
@@ -59,3 +101,40 @@ formElement.addEventListener( 'submit', (e) => {
     closePopup();
   }
 );
+
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+addCards( initialCards.map( (card) => {
+  return {
+    name: card.name,
+    photo: card.link,
+    photoDesc: card.name,
+    liked: false
+  }
+}));
