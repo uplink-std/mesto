@@ -1,4 +1,4 @@
-.profile-form__title {
+.form__title {
   color: #000;
   width: 100%;
   text-align: left;
@@ -11,7 +11,7 @@
 }
 
 @media all and (max-width: 620px) {
-  .profile-form__title {
+  .form__title {
     font-size: 18px;
     line-height: 1.22; /* 22px; */
     margin: 0 0 75px;

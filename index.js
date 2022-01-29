@@ -2,10 +2,14 @@ const SELECTORS = {
   page: '.page',
   popup: '.popup',
   popupOpenClass: 'popup_opened',
-  form: '.profile-form',
-  nameInput: '.profile-form__name',
-  occupationInput: '.profile-form__occupation',
-  closeButton: '.profile-form__close-btn',
+  form: '.form',
+  formActiveClass: 'form_active',
+  profileForm: '.profile-form',
+  profileNameInput: '.profile-form__name',
+  profileOccupationInput: '.profile-form__occupation',
+  profileFormCloseButton: '.profile-form__close-btn',
+  cardFormCloseButton: '.card-form__close-btn',
+  cardForm: '.card-form',
   name: '.profile__info-name',
   occupation: '.profile__info-occupation',
   avatar: '.profile__avatar',
@@ -21,35 +25,47 @@ const CARD_SELECTORS = {
   likeButton: '.element__like-btn',
   trashButton: '.element__trash-btn',
   likeButtonActiveClass: 'element__like-btn_active',
-  cardsContainer: '.elements__list'
+  cardsContainer: '.elements__list',
+  formName: '.card-form__name',
+  formPhoto: '.card-form__photo',
 }
 
-const profileName = document.querySelector(SELECTORS.name);
-const profileOccupation = document.querySelector(SELECTORS.occupation);
-const popupElement = document.querySelector(SELECTORS.popup);
-const formElement = document.querySelector(SELECTORS.form);
-const nameInput = formElement.querySelector(SELECTORS.nameInput);
-const occupationInput = formElement.querySelector(SELECTORS.occupationInput);
-const closeButton = formElement.querySelector(SELECTORS.closeButton);
-const editButton = document.querySelector(SELECTORS.editButton);
-const cardsContainer = document.querySelector(CARD_SELECTORS.cardsContainer);
+const profileInfoName = document.querySelector(SELECTORS.name);
+const profileInfoOccupation = document.querySelector(SELECTORS.occupation);
+const profileInfoEditButton = document.querySelector(SELECTORS.editButton);
 
-const openPopup = () => {
+const popupElement = document.querySelector(SELECTORS.popup);
+
+const profileFormElement = document.querySelector(SELECTORS.profileForm);
+const profileNameInput = profileFormElement.querySelector(SELECTORS.profileNameInput);
+const profileOccupationInput = profileFormElement.querySelector(SELECTORS.profileOccupationInput);
+const profileFormCloseButton = profileFormElement.querySelector(SELECTORS.profileFormCloseButton);
+
+const cardFormElement = document.querySelector(SELECTORS.cardForm);
+const cardFormCloseButton = cardFormElement.querySelector(SELECTORS.cardFormCloseButton);
+const cardAddButton = document.querySelector(SELECTORS.addButton);
+const cardsContainer = document.querySelector(CARD_SELECTORS.cardsContainer);
+const cardFormNameElement = cardFormElement.querySelector(CARD_SELECTORS.formName);
+const cardFormPhotoElement = cardFormElement.querySelector(CARD_SELECTORS.formPhoto);
+
+const openPopup = (formElement) => {
   popupElement.classList.add(SELECTORS.popupOpenClass);
+  formElement.classList.add(SELECTORS.formActiveClass);
+}
+
+const closePopup = (formElement) => {
+  popupElement.classList.remove(SELECTORS.popupOpenClass);
+  formElement.classList.remove(SELECTORS.formActiveClass);
 }
 
 const setFormProfile = () => {
-  nameInput.value = profileName.textContent;
-  occupationInput.value = profileOccupation.textContent;
-}
-
-const closePopup = () => {
-  popupElement.classList.remove(SELECTORS.popupOpenClass);
+  profileNameInput.value = profileInfoName.textContent;
+  profileOccupationInput.value = profileInfoOccupation.textContent;
 }
 
 const saveProfile = () => {
-  profileName.textContent = nameInput.value;
-  profileOccupation.textContent = occupationInput.value;
+  profileInfoName.textContent = profileNameInput.value;
+  profileInfoOccupation.textContent = profileOccupationInput.value;
 }
 
 const toggleLike = (likeButtonElement) => {
@@ -93,28 +109,60 @@ const createCardElement = (card) => {
   return cardElement;
 }
 
+const addCard = (card) => {
+  const cardElement = createCardElement(card);
+  cardsContainer.append( cardElement );
+}
+
 const addCards = (cards) => {
-  const elements = cards.map( (card) => createCardElement(card));
-  cardsContainer.append( ...elements );
+  cards.forEach( addCard );
 }
 
 const removeCard = (cardElement) => {
   cardsContainer.removeChild(cardElement);
 }
 
-closeButton.addEventListener( 'click', closePopup );
+const getFormCard = () => {
+  return {
+    name: cardFormNameElement.value,
+    photo: cardFormPhotoElement.value,
+    photoDesc: cardFormNameElement.value,
+    liked: false,
+  }
+}
 
-editButton.addEventListener( 'click', () => {
+const resetCardForm = () => {
+  cardFormNameElement.value = '';
+  cardFormPhotoElement.value = '';
+}
+
+profileFormCloseButton.addEventListener( 'click', () => closePopup(profileFormElement) );
+
+profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
-  openPopup();
+  openPopup(profileFormElement);
 });
 
-formElement.addEventListener( 'submit', (e) => {
-    e.preventDefault();
+profileFormElement.addEventListener( 'submit', (event) => {
+    event.preventDefault();
     saveProfile();
-    closePopup();
+    closePopup(profileFormElement);
   }
 );
+
+cardFormElement.addEventListener( 'submit', (event) => {
+  event.preventDefault();
+  const card = getFormCard();
+  addCard(card);
+  closePopup(cardFormElement);
+})
+
+cardAddButton.addEventListener('click', () => {
+  resetCardForm();
+  openPopup(cardFormElement);
+});
+
+cardFormCloseButton.addEventListener( 'click', () => closePopup(cardFormElement) );
 
 
 const initialCards = [

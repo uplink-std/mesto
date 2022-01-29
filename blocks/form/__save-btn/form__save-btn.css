@@ -1,4 +1,4 @@
-.profile-form__save-btn {
+.form__save-btn {
   width: 100%;
   min-height: 49px;
   margin: 0;
@@ -14,13 +14,13 @@
   border-radius: 2px;
 }
 
-.profile-form__save-btn:hover {
+.form__save-btn:hover {
   opacity: .8;
   cursor: pointer;
 }
 
 @media all and (max-width: 620px) {
-  .profile-form__save-btn {
+  .form__save-btn {
     font-size: 14px;
     line-height: 1.21; /* 17px */
   }
