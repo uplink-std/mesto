@@ -109,13 +109,17 @@ const createCardElement = (card) => {
   return cardElement;
 }
 
-const addCard = (card) => {
+const addCard = (card, atStart = false) => {
   const cardElement = createCardElement(card);
-  cardsContainer.append( cardElement );
+  if (atStart) {
+    cardsContainer.prepend(cardElement);
+  } else {
+    cardsContainer.append(cardElement);
+  }
 }
 
 const addCards = (cards) => {
-  cards.forEach( addCard );
+  cards.forEach( (card) => addCard(card) );
 }
 
 const removeCard = (cardElement) => {
@@ -153,7 +157,7 @@ profileFormElement.addEventListener( 'submit', (event) => {
 cardFormElement.addEventListener( 'submit', (event) => {
   event.preventDefault();
   const card = getFormCard();
-  addCard(card);
+  addCard(card, true);
   closePopup(cardFormElement);
 })
 
