@@ -19,6 +19,7 @@ const CARD_SELECTORS = {
   photo: '.element__photo',
   name: '.element__name',
   likeButton: '.element__like-btn',
+  trashButton: '.element__trash-btn',
   likeButtonActiveClass: 'element__like-btn_active',
   cardsContainer: '.elements__list'
 }
@@ -74,18 +75,31 @@ const initCardLikeButton = (cardElement, card) => {
   likeButtonElement.addEventListener( 'click', (event) => toggleLike(event.target) );
 }
 
+const initTrashButton = (cardElement) => {
+  const trashButtonElement = cardElement.querySelector(CARD_SELECTORS.trashButton);
+  trashButtonElement.addEventListener( 'click', (event) => {
+    const cardElement = event.target.closest(CARD_SELECTORS.element);
+    removeCard(cardElement);
+  } );
+}
+
 const createCardElement = (card) => {
   const cardElementTemplate = document.querySelector(CARD_SELECTORS.template).content;
   const cardElement = cardElementTemplate.querySelector(CARD_SELECTORS.element).cloneNode(true);
   initCardPhoto(cardElement, card);
   initCardName(cardElement, card);
   initCardLikeButton(cardElement, card);
+  initTrashButton(cardElement);
   return cardElement;
 }
 
 const addCards = (cards) => {
   const elements = cards.map( (card) => createCardElement(card));
   cardsContainer.append( ...elements );
+}
+
+const removeCard = (cardElement) => {
+  cardsContainer.removeChild(cardElement);
 }
 
 closeButton.addEventListener( 'click', closePopup );
