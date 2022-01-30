@@ -1,0 +1,5 @@
+.card-details__photo {
+  object-position: center;
+  object-fit: contain;
+  max-height: calc( 80vh - 25px );
+}

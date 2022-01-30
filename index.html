@@ -36,25 +36,36 @@
       <footer class="footer">
         <p class="footer__copyright">&copy;&nbsp;2022&nbsp;Александр&nbsp;Зиновьев</p>
       </footer>
-
     </div>
+
     <div class="popup">
+
       <div class="popup__container">
         <form class="profile-form form">
-          <button class="profile-form__close-btn form__close-btn" type="button"></button>
+          <button class="popup__close-btn" type="button"></button>
           <h2 class="profile-form__title form__title">Редактировать&nbsp;профиль</h2>
           <input class="profile-form__name form__input" type="text" value="">
           <input class="profile-form__occupation form__input" type="text" value="">
           <button class="profile-form__save-btn form__save-btn" type="submit">Сохранить</button>
         </form>
+      </div>
 
+      <div class="popup__container">
         <form class="card-form form">
-          <button class="card-form__close-btn form__close-btn" type="button"></button>
+          <button class="popup__close-btn" type="button"></button>
           <h2 class="card-form__title form__title">Новое&nbsp;место</h2>
           <input class="card-form__name form__input" type="text" placeholder="Название" value="">
           <input class="card-form__photo form__input" type="text" placeholder="Ссылка на картинку" value="">
           <button class="card-form__save-btn form__save-btn" type="submit">Создать</button>
         </form>
+      </div>
+
+      <div class="popup__container">
+        <div class="card-details">
+          <button class="popup__close-btn" type="button"></button>
+          <img class="card-details__photo" src="" alt="">
+          <p class="card-details__name"></p>
+        </div>
       </div>
     </div>
 
