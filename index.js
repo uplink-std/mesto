@@ -178,6 +178,7 @@ const resetCardForm = () => {
 const openCardDetails = (cardPhoto, card) => {
   openPopup(cardDetailsPopupContainer, popupSelectors.popupDarkClass);
   cardDetailsPhoto.src = card.photo;
+  cardDetailsPhoto.alt = card.photoDesc;
   cardDetailsName.textContent = card.name;
 }
 
