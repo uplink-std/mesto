@@ -9,6 +9,10 @@ const SELECTORS = {
   addCardButton: '.profile__add-btn',
 };
 
+const FADE_CONTENT_SELECTORS = {
+  visibleClass: 'fade-content_visible',
+};
+
 const POPUP_SELECTORS = {
   popup: '.popup',
   popupDarkClass: 'popup_dark',
@@ -66,18 +70,26 @@ const cardDetailsName = cardDetails.querySelector(CARD_DETAILS_SELECTORS.name);
 
 const openPopup = (popupContainer, popupModifierClass) => {
   popupElement.classList.add(POPUP_SELECTORS.popupOpenClass);
+  popupElement.classList.add(FADE_CONTENT_SELECTORS.visibleClass);
   if (popupModifierClass) {
     popupElement.classList.add(popupModifierClass);
   }
   popupContainer.classList.add(POPUP_SELECTORS.popupContainerActiveClass);
+  popupContainer.classList.add(FADE_CONTENT_SELECTORS.visibleClass);
 }
 
 const closePopup = (popupContainer, popupModifierClass) => {
+  popupContainer.classList.remove(FADE_CONTENT_SELECTORS.visibleClass);
+
+  popupElement.classList.remove(FADE_CONTENT_SELECTORS.visibleClass);
   popupElement.classList.remove(POPUP_SELECTORS.popupOpenClass);
   if (popupModifierClass) {
     popupElement.classList.remove(popupModifierClass);
   }
-  popupContainer.classList.remove(POPUP_SELECTORS.popupContainerActiveClass);
+
+  setTimeout(() => {
+    popupContainer.classList.remove(POPUP_SELECTORS.popupContainerActiveClass);
+  }, 1000);
 }
 
 const setFormProfile = () => {
