@@ -11,6 +11,7 @@ const SELECTORS = {
 
 const POPUP_SELECTORS = {
   popup: '.popup',
+  popupDarkClass: 'popup_dark',
   popupCloseButton: '.popup__close-btn',
   popupOpenClass: 'popup_opened',
   popupContainer: '.popup__container',
@@ -63,13 +64,19 @@ const cardDetailsCloseButton = cardDetailsPopupContainer.querySelector(POPUP_SEL
 const cardDetailsPhoto = cardDetails.querySelector(CARD_DETAILS_SELECTORS.photo);
 const cardDetailsName = cardDetails.querySelector(CARD_DETAILS_SELECTORS.name);
 
-const openPopup = (popupContainer) => {
+const openPopup = (popupContainer, popupModifierClass) => {
   popupElement.classList.add(POPUP_SELECTORS.popupOpenClass);
+  if (popupModifierClass) {
+    popupElement.classList.add(popupModifierClass);
+  }
   popupContainer.classList.add(POPUP_SELECTORS.popupContainerActiveClass);
 }
 
-const closePopup = (popupContainer) => {
+const closePopup = (popupContainer, popupModifierClass) => {
   popupElement.classList.remove(POPUP_SELECTORS.popupOpenClass);
+  if (popupModifierClass) {
+    popupElement.classList.remove(popupModifierClass);
+  }
   popupContainer.classList.remove(POPUP_SELECTORS.popupContainerActiveClass);
 }
 
@@ -157,12 +164,12 @@ const resetCardForm = () => {
 }
 
 const openCardDetails = (cardPhoto, card) => {
-  openPopup(cardDetailsPopupContainer);
+  openPopup(cardDetailsPopupContainer, POPUP_SELECTORS.popupDarkClass);
   cardDetailsPhoto.src = card.photo;
   cardDetailsName.textContent = card.name;
 }
 
-cardDetailsCloseButton.addEventListener('click', () => closePopup(cardDetailsPopupContainer));
+cardDetailsCloseButton.addEventListener('click', () => closePopup(cardDetailsPopupContainer, POPUP_SELECTORS.popupDarkClass));
 
 profileCloseButton.addEventListener( 'click', () => closePopup(profileFormContainer) );
 
