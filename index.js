@@ -1,21 +1,21 @@
 const SELECTORS = {
-  page: '.page',
-  popup: '.popup',
-  popupOpenClass: 'popup_opened',
-  form: '.form',
-  formActiveClass: 'form_active',
   profileForm: '.profile-form',
   profileNameInput: '.profile-form__name',
   profileOccupationInput: '.profile-form__occupation',
-  profileFormCloseButton: '.profile-form__close-btn',
-  cardFormCloseButton: '.card-form__close-btn',
   cardForm: '.card-form',
-  name: '.profile__info-name',
-  occupation: '.profile__info-occupation',
-  avatar: '.profile__avatar',
+  profileInfoName: '.profile__info-name',
+  profileInfoOccupation: '.profile__info-occupation',
   editButton: '.profile__edit-btn',
-  addButton: '.profile__add-btn',
+  addCardButton: '.profile__add-btn',
 };
+
+const POPUP_SELECTORS = {
+  popup: '.popup',
+  popupCloseButton: '.popup__close-btn',
+  popupOpenClass: 'popup_opened',
+  popupContainer: '.popup__container',
+  popupContainerActiveClass: 'popup__container_active',
+}
 
 const CARD_SELECTORS = {
   template: '#element-template',
@@ -30,42 +30,57 @@ const CARD_SELECTORS = {
   formPhoto: '.card-form__photo',
 }
 
-const profileInfoName = document.querySelector(SELECTORS.name);
-const profileInfoOccupation = document.querySelector(SELECTORS.occupation);
+const CARD_DETAILS_SELECTORS = {
+  cardDetails: '.card-details',
+  photo: '.card-details__photo',
+  name: '.card-details__name'
+}
+
+const profileInfoName = document.querySelector(SELECTORS.profileInfoName);
+const profileInfoOccupation = document.querySelector(SELECTORS.profileInfoOccupation);
 const profileInfoEditButton = document.querySelector(SELECTORS.editButton);
 
-const popupElement = document.querySelector(SELECTORS.popup);
+const popupElement = document.querySelector(POPUP_SELECTORS.popup);
 
-const profileFormElement = document.querySelector(SELECTORS.profileForm);
-const profileNameInput = profileFormElement.querySelector(SELECTORS.profileNameInput);
-const profileOccupationInput = profileFormElement.querySelector(SELECTORS.profileOccupationInput);
-const profileFormCloseButton = profileFormElement.querySelector(SELECTORS.profileFormCloseButton);
+const profileForm = document.querySelector(SELECTORS.profileForm);
+const profileFormContainer = profileForm.closest(POPUP_SELECTORS.popupContainer);
+const profileCloseButton = profileFormContainer.querySelector(POPUP_SELECTORS.popupCloseButton);
+const profileFormNameInput = profileForm.querySelector(SELECTORS.profileNameInput);
+const profileFormOccupationInput = profileForm.querySelector(SELECTORS.profileOccupationInput);
+
 
 const cardFormElement = document.querySelector(SELECTORS.cardForm);
-const cardFormCloseButton = cardFormElement.querySelector(SELECTORS.cardFormCloseButton);
-const cardAddButton = document.querySelector(SELECTORS.addButton);
+const cardFormContainer = cardFormElement.closest(POPUP_SELECTORS.popupContainer);
+const cardFormCloseButton = cardFormContainer.querySelector(POPUP_SELECTORS.popupCloseButton);
+const cardAddButton = document.querySelector(SELECTORS.addCardButton);
 const cardsContainer = document.querySelector(CARD_SELECTORS.cardsContainer);
 const cardFormNameElement = cardFormElement.querySelector(CARD_SELECTORS.formName);
 const cardFormPhotoElement = cardFormElement.querySelector(CARD_SELECTORS.formPhoto);
 
-const openPopup = (formElement) => {
-  popupElement.classList.add(SELECTORS.popupOpenClass);
-  formElement.classList.add(SELECTORS.formActiveClass);
+const cardDetails = document.querySelector(CARD_DETAILS_SELECTORS.cardDetails);
+const cardDetailsPopupContainer = cardDetails.closest(POPUP_SELECTORS.popupContainer);
+const cardDetailsCloseButton = cardDetailsPopupContainer.querySelector(POPUP_SELECTORS.popupCloseButton);
+const cardDetailsPhoto = cardDetails.querySelector(CARD_DETAILS_SELECTORS.photo);
+const cardDetailsName = cardDetails.querySelector(CARD_DETAILS_SELECTORS.name);
+
+const openPopup = (popupContainer) => {
+  popupElement.classList.add(POPUP_SELECTORS.popupOpenClass);
+  popupContainer.classList.add(POPUP_SELECTORS.popupContainerActiveClass);
 }
 
-const closePopup = (formElement) => {
-  popupElement.classList.remove(SELECTORS.popupOpenClass);
-  formElement.classList.remove(SELECTORS.formActiveClass);
+const closePopup = (popupContainer) => {
+  popupElement.classList.remove(POPUP_SELECTORS.popupOpenClass);
+  popupContainer.classList.remove(POPUP_SELECTORS.popupContainerActiveClass);
 }
 
 const setFormProfile = () => {
-  profileNameInput.value = profileInfoName.textContent;
-  profileOccupationInput.value = profileInfoOccupation.textContent;
+  profileFormNameInput.value = profileInfoName.textContent;
+  profileFormOccupationInput.value = profileInfoOccupation.textContent;
 }
 
 const saveProfile = () => {
-  profileInfoName.textContent = profileNameInput.value;
-  profileInfoOccupation.textContent = profileOccupationInput.value;
+  profileInfoName.textContent = profileFormNameInput.value;
+  profileInfoOccupation.textContent = profileFormOccupationInput.value;
 }
 
 const toggleLike = (likeButtonElement) => {
@@ -76,6 +91,7 @@ const initCardPhoto = (cardElement, card) => {
   const photoElement = cardElement.querySelector(CARD_SELECTORS.photo);
   photoElement.src = card.photo;
   photoElement.alt = card.photoDesc;
+  photoElement.addEventListener( 'click', (event) => openCardDetails(event.target, card));
 }
 
 const initCardName = (cardElement, card) => {
@@ -140,17 +156,26 @@ const resetCardForm = () => {
   cardFormPhotoElement.value = '';
 }
 
-profileFormCloseButton.addEventListener( 'click', () => closePopup(profileFormElement) );
+const openCardDetails = (cardPhoto, card) => {
+  openPopup(cardDetailsPopupContainer);
+  cardDetailsPhoto.src = card.photo;
+  cardDetailsName.textContent = card.name;
+}
+
+cardDetailsCloseButton.addEventListener('click', () => closePopup(cardDetailsPopupContainer));
+
+profileCloseButton.addEventListener( 'click', () => closePopup(profileFormContainer) );
+
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
-  openPopup(profileFormElement);
+  openPopup(profileFormContainer);
 });
 
-profileFormElement.addEventListener( 'submit', (event) => {
+profileForm.addEventListener( 'submit', (event) => {
     event.preventDefault();
     saveProfile();
-    closePopup(profileFormElement);
+    closePopup(profileFormContainer);
   }
 );
 
@@ -158,16 +183,15 @@ cardFormElement.addEventListener( 'submit', (event) => {
   event.preventDefault();
   const card = getFormCard();
   addCard(card, true);
-  closePopup(cardFormElement);
+  closePopup(cardFormContainer);
 })
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
-  openPopup(cardFormElement);
+  openPopup(cardFormContainer);
 });
 
-cardFormCloseButton.addEventListener( 'click', () => closePopup(cardFormElement) );
-
+cardFormCloseButton.addEventListener( 'click', () => closePopup(cardFormContainer) );
 
 const initialCards = [
   {
