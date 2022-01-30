@@ -1,4 +1,4 @@
-const SELECTORS = {
+const selectors = {
   profileForm: '.profile-form',
   profileNameInput: '.profile-form__name',
   profileOccupationInput: '.profile-form__occupation',
@@ -9,11 +9,11 @@ const SELECTORS = {
   addCardButton: '.profile__add-btn',
 };
 
-const FADE_CONTENT_SELECTORS = {
+const fadeContentSelectors = {
   visibleClass: 'fade-content_visible',
 };
 
-const POPUP_SELECTORS = {
+const popupSelectors = {
   popup: '.popup',
   popupDarkClass: 'popup_dark',
   popupCloseButton: '.popup__close-btn',
@@ -22,7 +22,7 @@ const POPUP_SELECTORS = {
   popupContainerActiveClass: 'popup__container_active',
 }
 
-const CARD_SELECTORS = {
+const cardSelectors = {
   template: '#element-template',
   element: '.element',
   photo: '.element__photo',
@@ -35,60 +35,60 @@ const CARD_SELECTORS = {
   formPhoto: '.card-form__photo',
 }
 
-const CARD_DETAILS_SELECTORS = {
+const cardDetailsSelectors = {
   cardDetails: '.card-details',
   photo: '.card-details__photo',
   name: '.card-details__name'
 }
 
-const profileInfoName = document.querySelector(SELECTORS.profileInfoName);
-const profileInfoOccupation = document.querySelector(SELECTORS.profileInfoOccupation);
-const profileInfoEditButton = document.querySelector(SELECTORS.editButton);
+const profileInfoName = document.querySelector(selectors.profileInfoName);
+const profileInfoOccupation = document.querySelector(selectors.profileInfoOccupation);
+const profileInfoEditButton = document.querySelector(selectors.editButton);
 
-const popupElement = document.querySelector(POPUP_SELECTORS.popup);
+const popupElement = document.querySelector(popupSelectors.popup);
 
-const profileForm = document.querySelector(SELECTORS.profileForm);
-const profileFormContainer = profileForm.closest(POPUP_SELECTORS.popupContainer);
-const profileCloseButton = profileFormContainer.querySelector(POPUP_SELECTORS.popupCloseButton);
-const profileFormNameInput = profileForm.querySelector(SELECTORS.profileNameInput);
-const profileFormOccupationInput = profileForm.querySelector(SELECTORS.profileOccupationInput);
+const profileForm = document.querySelector(selectors.profileForm);
+const profileFormContainer = profileForm.closest(popupSelectors.popupContainer);
+const profileCloseButton = profileFormContainer.querySelector(popupSelectors.popupCloseButton);
+const profileFormNameInput = profileForm.querySelector(selectors.profileNameInput);
+const profileFormOccupationInput = profileForm.querySelector(selectors.profileOccupationInput);
 
 
-const cardFormElement = document.querySelector(SELECTORS.cardForm);
-const cardFormContainer = cardFormElement.closest(POPUP_SELECTORS.popupContainer);
-const cardFormCloseButton = cardFormContainer.querySelector(POPUP_SELECTORS.popupCloseButton);
-const cardAddButton = document.querySelector(SELECTORS.addCardButton);
-const cardsContainer = document.querySelector(CARD_SELECTORS.cardsContainer);
-const cardFormNameElement = cardFormElement.querySelector(CARD_SELECTORS.formName);
-const cardFormPhotoElement = cardFormElement.querySelector(CARD_SELECTORS.formPhoto);
+const cardFormElement = document.querySelector(selectors.cardForm);
+const cardFormContainer = cardFormElement.closest(popupSelectors.popupContainer);
+const cardFormCloseButton = cardFormContainer.querySelector(popupSelectors.popupCloseButton);
+const cardAddButton = document.querySelector(selectors.addCardButton);
+const cardsContainer = document.querySelector(cardSelectors.cardsContainer);
+const cardFormNameElement = cardFormElement.querySelector(cardSelectors.formName);
+const cardFormPhotoElement = cardFormElement.querySelector(cardSelectors.formPhoto);
 
-const cardDetails = document.querySelector(CARD_DETAILS_SELECTORS.cardDetails);
-const cardDetailsPopupContainer = cardDetails.closest(POPUP_SELECTORS.popupContainer);
-const cardDetailsCloseButton = cardDetailsPopupContainer.querySelector(POPUP_SELECTORS.popupCloseButton);
-const cardDetailsPhoto = cardDetails.querySelector(CARD_DETAILS_SELECTORS.photo);
-const cardDetailsName = cardDetails.querySelector(CARD_DETAILS_SELECTORS.name);
+const cardDetails = document.querySelector(cardDetailsSelectors.cardDetails);
+const cardDetailsPopupContainer = cardDetails.closest(popupSelectors.popupContainer);
+const cardDetailsCloseButton = cardDetailsPopupContainer.querySelector(popupSelectors.popupCloseButton);
+const cardDetailsPhoto = cardDetails.querySelector(cardDetailsSelectors.photo);
+const cardDetailsName = cardDetails.querySelector(cardDetailsSelectors.name);
 
 const openPopup = (popupContainer, popupModifierClass) => {
-  popupElement.classList.add(POPUP_SELECTORS.popupOpenClass);
-  popupElement.classList.add(FADE_CONTENT_SELECTORS.visibleClass);
+  popupElement.classList.add(popupSelectors.popupOpenClass);
+  popupElement.classList.add(fadeContentSelectors.visibleClass);
   if (popupModifierClass) {
     popupElement.classList.add(popupModifierClass);
   }
-  popupContainer.classList.add(POPUP_SELECTORS.popupContainerActiveClass);
-  popupContainer.classList.add(FADE_CONTENT_SELECTORS.visibleClass);
+  popupContainer.classList.add(popupSelectors.popupContainerActiveClass);
+  popupContainer.classList.add(fadeContentSelectors.visibleClass);
 }
 
 const closePopup = (popupContainer, popupModifierClass) => {
-  popupContainer.classList.remove(FADE_CONTENT_SELECTORS.visibleClass);
+  popupContainer.classList.remove(fadeContentSelectors.visibleClass);
 
-  popupElement.classList.remove(FADE_CONTENT_SELECTORS.visibleClass);
-  popupElement.classList.remove(POPUP_SELECTORS.popupOpenClass);
+  popupElement.classList.remove(fadeContentSelectors.visibleClass);
+  popupElement.classList.remove(popupSelectors.popupOpenClass);
   if (popupModifierClass) {
     popupElement.classList.remove(popupModifierClass);
   }
 
   setTimeout(() => {
-    popupContainer.classList.remove(POPUP_SELECTORS.popupContainerActiveClass);
+    popupContainer.classList.remove(popupSelectors.popupContainerActiveClass);
   }, 1000);
 }
 
@@ -103,40 +103,40 @@ const saveProfile = () => {
 }
 
 const toggleLike = (likeButtonElement) => {
-  likeButtonElement.classList.toggle(CARD_SELECTORS.likeButtonActiveClass);
+  likeButtonElement.classList.toggle(cardSelectors.likeButtonActiveClass);
 }
 
 const initCardPhoto = (cardElement, card) => {
-  const photoElement = cardElement.querySelector(CARD_SELECTORS.photo);
+  const photoElement = cardElement.querySelector(cardSelectors.photo);
   photoElement.src = card.photo;
   photoElement.alt = card.photoDesc;
   photoElement.addEventListener( 'click', (event) => openCardDetails(event.target, card));
 }
 
 const initCardName = (cardElement, card) => {
-  const nameElement = cardElement.querySelector(CARD_SELECTORS.name);
+  const nameElement = cardElement.querySelector(cardSelectors.name);
   nameElement.textContent = card.name;
 }
 
 const initCardLikeButton = (cardElement, card) => {
-  const likeButtonElement = cardElement.querySelector(CARD_SELECTORS.likeButton);
+  const likeButtonElement = cardElement.querySelector(cardSelectors.likeButton);
   if (card.liked) {
-    likeButtonElement.classList.add(CARD_SELECTORS.likeButtonActiveClass);
+    likeButtonElement.classList.add(cardSelectors.likeButtonActiveClass);
   }
   likeButtonElement.addEventListener( 'click', (event) => toggleLike(event.target) );
 }
 
 const initTrashButton = (cardElement) => {
-  const trashButtonElement = cardElement.querySelector(CARD_SELECTORS.trashButton);
+  const trashButtonElement = cardElement.querySelector(cardSelectors.trashButton);
   trashButtonElement.addEventListener( 'click', (event) => {
-    const cardElement = event.target.closest(CARD_SELECTORS.element);
+    const cardElement = event.target.closest(cardSelectors.element);
     removeCard(cardElement);
   } );
 }
 
 const createCardElement = (card) => {
-  const cardElementTemplate = document.querySelector(CARD_SELECTORS.template).content;
-  const cardElement = cardElementTemplate.querySelector(CARD_SELECTORS.element).cloneNode(true);
+  const cardElementTemplate = document.querySelector(cardSelectors.template).content;
+  const cardElement = cardElementTemplate.querySelector(cardSelectors.element).cloneNode(true);
   initCardPhoto(cardElement, card);
   initCardName(cardElement, card);
   initCardLikeButton(cardElement, card);
@@ -176,12 +176,12 @@ const resetCardForm = () => {
 }
 
 const openCardDetails = (cardPhoto, card) => {
-  openPopup(cardDetailsPopupContainer, POPUP_SELECTORS.popupDarkClass);
+  openPopup(cardDetailsPopupContainer, popupSelectors.popupDarkClass);
   cardDetailsPhoto.src = card.photo;
   cardDetailsName.textContent = card.name;
 }
 
-cardDetailsCloseButton.addEventListener('click', () => closePopup(cardDetailsPopupContainer, POPUP_SELECTORS.popupDarkClass));
+cardDetailsCloseButton.addEventListener('click', () => closePopup(cardDetailsPopupContainer, popupSelectors.popupDarkClass));
 
 profileCloseButton.addEventListener( 'click', () => closePopup(profileFormContainer) );
 
