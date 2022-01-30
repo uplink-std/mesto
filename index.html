@@ -27,54 +27,7 @@
 
         <section class="elements">
           <ul class="elements__list">
-            <li class="element">
-              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
-              <div class="element__info">
-                <h2 class="element__name abridgment">Карачаевск</h2>
-                <button class="element__like-btn" type="button"></button>
-              </div>
-            </li>
-
-            <li class="element">
-              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
-              <div class="element__info">
-                <h2 class="element__name abridgment">Карачаевск</h2>
-                <button class="element__like-btn" type="button"></button>
-              </div>
-            </li>
-
-            <li class="element">
-              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
-              <div class="element__info">
-                <h2 class="element__name abridgment">Карачаевск</h2>
-                <button class="element__like-btn" type="button"></button>
-              </div>
-            </li>
-
-            <li class="element">
-              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
-              <div class="element__info">
-                <h2 class="element__name abridgment">Карачаевск</h2>
-                <button class="element__like-btn" type="button"></button>
-              </div>
-            </li>
-
-            <li class="element">
-              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
-              <div class="element__info">
-                <h2 class="element__name abridgment">Карачаевск</h2>
-                <button class="element__like-btn element__like-btn_active" type="button"></button>
-              </div>
-            </li>
-
-            <li class="element">
-              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Фотография: Карачаевск">
-              <div class="element__info">
-                <h2 class="element__name abridgment">Карачаевск</h2>
-                <button class="element__like-btn element__like-btn_active" type="button"></button>
-              </div>
-            </li>
-
+            <!-- template id="element-template" -->
           </ul>
         </section>
 
@@ -83,19 +36,49 @@
       <footer class="footer">
         <p class="footer__copyright">&copy;&nbsp;2022&nbsp;Александр&nbsp;Зиновьев</p>
       </footer>
-
     </div>
-    <div class="popup">
-      <div class="popup__container">
+
+    <div class="popup fade-content">
+
+      <div class="popup__container fade-content">
         <form class="profile-form form">
-          <button class="profile-form__close-btn" type="button"></button>
-          <h2 class="profile-form__title">Редактировать&nbsp;профиль</h2>
+          <button class="popup__close-btn" type="button"></button>
+          <h2 class="profile-form__title form__title">Редактировать&nbsp;профиль</h2>
           <input class="profile-form__name form__input" type="text" value="">
           <input class="profile-form__occupation form__input" type="text" value="">
-          <button class="profile-form__save-btn" type="submit">Сохранить</button>
+          <button class="profile-form__save-btn form__save-btn" type="submit">Сохранить</button>
         </form>
       </div>
+
+      <div class="popup__container fade-content">
+        <form class="card-form form">
+          <button class="popup__close-btn" type="button"></button>
+          <h2 class="card-form__title form__title">Новое&nbsp;место</h2>
+          <input class="card-form__name form__input" type="text" placeholder="Название" value="">
+          <input class="card-form__photo form__input" type="text" placeholder="Ссылка на картинку" value="">
+          <button class="card-form__save-btn form__save-btn" type="submit">Создать</button>
+        </form>
+      </div>
+
+      <div class="popup__container fade-content">
+        <div class="card-details">
+          <button class="popup__close-btn" type="button"></button>
+          <img class="card-details__photo" src="#" alt="фотография">
+          <p class="card-details__name"></p>
+        </div>
+      </div>
     </div>
+
+    <template id="element-template">
+      <li class="element">
+        <img class="element__photo" src="" alt="">
+        <button class="element__trash-btn" type="button"></button>
+        <div class="element__info">
+          <h2 class="element__name abridgment"></h2>
+          <button class="element__like-btn" type="button"></button>
+        </div>
+      </li>
+    </template>
 
     <script src="./index.js"></script>
   </body>
