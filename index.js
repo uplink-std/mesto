@@ -9,10 +9,6 @@ const selectors = {
   addCardButton: '.profile__add-btn',
 };
 
-const fadeContentSelectors = {
-  visibleClass: 'fade-content_visible',
-};
-
 const popupSelectors = {
   popup: '.popup',
   popupDarkClass: 'popup_dark',
@@ -20,6 +16,9 @@ const popupSelectors = {
   popupOpenClass: 'popup_opened',
   popupContainer: '.popup__container',
   popupContainerActiveClass: 'popup__container_active',
+  popupEditProfile: '.popup_edit-profile',
+  popupAddCard: '.popup_add-card',
+  popupViewCard: '.popup_view-card',
 }
 
 const cardSelectors = {
@@ -45,7 +44,9 @@ const profileInfoName = document.querySelector(selectors.profileInfoName);
 const profileInfoOccupation = document.querySelector(selectors.profileInfoOccupation);
 const profileInfoEditButton = document.querySelector(selectors.editButton);
 
-const popupElement = document.querySelector(popupSelectors.popup);
+const popupEditProfile = document.querySelector(popupSelectors.popupEditProfile);
+const popupAddCard = document.querySelector(popupSelectors.popupAddCard);
+const popupViewCard = document.querySelector(popupSelectors.popupViewCard);
 
 const profileForm = document.querySelector(selectors.profileForm);
 const profileFormContainer = profileForm.closest(popupSelectors.popupContainer);
@@ -68,28 +69,12 @@ const cardDetailsCloseButton = cardDetailsPopupContainer.querySelector(popupSele
 const cardDetailsPhoto = cardDetails.querySelector(cardDetailsSelectors.photo);
 const cardDetailsName = cardDetails.querySelector(cardDetailsSelectors.name);
 
-const openPopup = (popupContainer, popupModifierClass) => {
+const openPopup = (popupElement) => {
   popupElement.classList.add(popupSelectors.popupOpenClass);
-  popupElement.classList.add(fadeContentSelectors.visibleClass);
-  if (popupModifierClass) {
-    popupElement.classList.add(popupModifierClass);
-  }
-  popupContainer.classList.add(popupSelectors.popupContainerActiveClass);
-  popupContainer.classList.add(fadeContentSelectors.visibleClass);
 }
 
-const closePopup = (popupContainer, popupModifierClass) => {
-  popupContainer.classList.remove(fadeContentSelectors.visibleClass);
-
-  popupElement.classList.remove(fadeContentSelectors.visibleClass);
+const closePopup = (popupElement) => {
   popupElement.classList.remove(popupSelectors.popupOpenClass);
-  if (popupModifierClass) {
-    popupElement.classList.remove(popupModifierClass);
-  }
-
-  setTimeout(() => {
-    popupContainer.classList.remove(popupSelectors.popupContainerActiveClass);
-  }, 1000);
 }
 
 const setFormProfile = () => {
@@ -176,26 +161,26 @@ const resetCardForm = () => {
 }
 
 const openCardDetails = (cardPhoto, card) => {
-  openPopup(cardDetailsPopupContainer, popupSelectors.popupDarkClass);
   cardDetailsPhoto.src = card.photo;
   cardDetailsPhoto.alt = card.photoDesc;
   cardDetailsName.textContent = card.name;
+  openPopup(popupViewCard);
 }
 
-cardDetailsCloseButton.addEventListener('click', () => closePopup(cardDetailsPopupContainer, popupSelectors.popupDarkClass));
+cardDetailsCloseButton.addEventListener('click', () => closePopup(popupViewCard));
 
-profileCloseButton.addEventListener( 'click', () => closePopup(profileFormContainer) );
+profileCloseButton.addEventListener( 'click', () => closePopup(popupEditProfile) );
 
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
-  openPopup(profileFormContainer);
+  openPopup(popupEditProfile);
 });
 
 profileForm.addEventListener( 'submit', (event) => {
     event.preventDefault();
     saveProfile();
-    closePopup(profileFormContainer);
+    closePopup(popupEditProfile);
   }
 );
 
@@ -203,15 +188,15 @@ cardFormElement.addEventListener( 'submit', (event) => {
   event.preventDefault();
   const card = getFormCard();
   addCard(card, true);
-  closePopup(cardFormContainer);
+  closePopup(popupAddCard);
 })
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
-  openPopup(cardFormContainer);
+  openPopup(popupAddCard);
 });
 
-cardFormCloseButton.addEventListener( 'click', () => closePopup(cardFormContainer) );
+cardFormCloseButton.addEventListener( 'click', () => closePopup(popupAddCard) );
 
 const initialCards = [
   {
