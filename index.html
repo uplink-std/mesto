@@ -42,10 +42,18 @@
       <div class="popup__container">
         <form class="profile-form form">
           <button class="popup__close-btn" type="button"></button>
-          <h2 class="profile-form__title form__title">Редактировать&nbsp;профиль</h2>
-          <input class="profile-form__name form__input" type="text" value="">
-          <input class="profile-form__occupation form__input" type="text" value="">
-          <button class="profile-form__save-btn form__save-btn" type="submit">Сохранить</button>
+          <h2 class="form__title">Редактировать&nbsp;профиль</h2>
+          <fieldset class="form__fieldset">
+            <input id="profile-form__name" class="profile-form__name form__input" type="text" value=""
+              required minlength="2" maxlength="40">
+            <span class="profile-form__name_error form__input-error-msg"></span>
+            <input id="profile-form__occupation" class="profile-form__occupation form__input"
+              type="text" value="" required minlength="2" maxlength="200">
+            <span class="profile-form__occupation_error form__input-error-msg"></span>
+          </fieldset>
+          <button class="form__save-btn" type="submit">
+            Сохранить
+          </button>
         </form>
       </div>
     </div>
