@@ -1,19 +1,20 @@
 const formRegistry = {}
 
 const setFormContext = (formElement, context) => {
-  if (!formElement.name) {
-    throw `Form should have name. form: ${formElement.innerHTML}`
+  if (!formElement.id) {
+    throw `Form should have id. form: ${formElement.innerHTML}`
   }
-  formRegistry[formElement.name] = context;
-
+  formRegistry[formElement.id] = context;
 }
+
 
 const getFormContext = (formElement) => {
-  if (!formElement.name in formRegistry) {
+  if (!formElement.id in formRegistry) {
     throw `Validation for this form wasn't enabled. form: ${formElement.innerHTML}`
   }
-  return formRegistry[formElement.name];
+  return formRegistry[formElement.id];
 }
+
 
 const hasInvalidData = (inputList) => {
   return inputList.some( (inputElement) => !inputElement.validity.valid );
@@ -64,7 +65,6 @@ const enableSubmitButton = (formContext) => {
 
 
 const validateForm = (formElement) => {
-
   const formContext = getFormContext(formElement);
   formContext.inputList.forEach( (inputElement) => renderInputValidityState(inputElement, formContext) );
 
@@ -75,6 +75,7 @@ const validateForm = (formElement) => {
   }
 }
 
+
 const findErrorMessageElements = (formElement, inputList) => {
   const errorMessageElements = {};
   inputList.forEach( (inputElement) => {
@@ -84,17 +85,17 @@ const findErrorMessageElements = (formElement, inputList) => {
   return errorMessageElements;
 }
 
+
 const createFormSettings = (formElement, validationOptions) => {
   const formSettings = {};
-
   formSettings.options = validationOptions;
   formSettings.formElement = formElement;
   formSettings.inputList = Array.from(formSettings.formElement.querySelectorAll(validationOptions.inputSelector));
   formSettings.submitButton = formSettings.formElement.querySelector(validationOptions.submitButtonSelector);
   formSettings.errorMessageElements = findErrorMessageElements(formSettings.formElement, formSettings.inputList);
-
   return formSettings;
 }
+
 
 const enableFormValidation = (formElement, validateOptions) => {
   const formSettings = createFormSettings(formElement, validateOptions);
@@ -106,8 +107,8 @@ const enableFormValidation = (formElement, validateOptions) => {
       validateForm(formElement);
     });
   });
-
 }
+
 
 const enableValidation = (validateOptions) => {
   const forms = Array.from(document.querySelectorAll(validateOptions.formSelector));

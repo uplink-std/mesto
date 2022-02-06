@@ -70,6 +70,21 @@ const closePopup = (popupElement) => {
   popupElement.classList.remove(popupSelectors.popupOpenClass);
 }
 
+const popupKeyUpHandler = (event, popupElement) => {
+  if (event.key === "Escape") {
+    console.log(`Closing popup ${popupElement.classList}`)
+    if (popupElement.escapeListener) {
+      document.removeEventListener( 'keyup', popupElement.escapeListener );
+    }
+    closePopup(popupElement);
+  }
+}
+
+const setupCloseOnEscape = ( popupElement ) => {
+  popupElement.escapeListener = (event) => popupKeyUpHandler(event, popupElement);
+  document.addEventListener( 'keyup', popupElement.escapeListener);
+};
+
 const setFormProfile = () => {
   profileFormNameInput.value = profileInfoName.textContent;
   profileFormOccupationInput.value = profileInfoOccupation.textContent;
@@ -159,12 +174,14 @@ const openCardDetails = (cardPhoto, card) => {
   cardDetailsPhoto.alt = card.photoDesc;
   cardDetailsName.textContent = card.name;
   openPopup(popupViewCard);
+  setupCloseOnEscape(popupViewCard);
 }
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
   validateForm(editProfileForm);
   openPopup(popupEditProfile);
+  setupCloseOnEscape(popupEditProfile);
 });
 
 cardAddButton.addEventListener('click', () => {
@@ -172,6 +189,7 @@ cardAddButton.addEventListener('click', () => {
   validateForm(cardForm);
   hideFormErrorMessages(cardForm);
   openPopup(popupAddCard);
+  setupCloseOnEscape(popupAddCard);
 });
 
 const setupFormIfExists = ( popupElement, handleSubmit ) => {
