@@ -9,6 +9,10 @@ const selectors = {
 
 const formSelectors = {
   form: '.form',
+  inputErrorClass: 'form__input_error',
+  inputErrorMsgActiveClass: 'form__input-error-msg_active',
+  saveButtonDisabledClass: 'form__save-btn_disabled',
+  submitButton: '.form__save-btn',
 }
 
 const popupSelectors = {
@@ -45,11 +49,13 @@ const profileInfoName = document.querySelector(selectors.profileInfoName);
 const profileInfoOccupation = document.querySelector(selectors.profileInfoOccupation);
 const profileInfoEditButton = document.querySelector(selectors.editButton);
 
+const editProfileForm = popupEditProfile.querySelector(formSelectors.form);
 const profileFormNameInput = popupEditProfile.querySelector(selectors.profileNameInput);
 const profileFormOccupationInput = popupEditProfile.querySelector(selectors.profileOccupationInput);
 
 const cardAddButton = document.querySelector(selectors.addCardButton);
 const cardsContainer = document.querySelector(cardSelectors.cardsContainer);
+const cardForm = popupAddCard.querySelector(formSelectors.form);
 const cardFormNameElement = popupAddCard.querySelector(cardSelectors.formName);
 const cardFormPhotoElement = popupAddCard.querySelector(cardSelectors.formPhoto);
 
@@ -157,11 +163,14 @@ const openCardDetails = (cardPhoto, card) => {
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
+  validateForm(editProfileForm);
   openPopup(popupEditProfile);
 });
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
+  validateForm(cardForm);
+  hideFormErrorMessages(cardForm);
   openPopup(popupAddCard);
 });
 
@@ -212,6 +221,17 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+const validationOptions = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__save-btn',
+  inactiveButtonClass: 'form__save-btn_disabled',
+  inputErrorClass: 'form__input-error',
+  errorClass: 'form__input-error-msg_active'
+}
+
+enableValidation(validationOptions);
 
 setupPopup( popupEditProfile, saveProfile );
 setupPopup( popupAddCard, saveCard );
