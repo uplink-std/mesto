@@ -82,7 +82,7 @@ const validateForm = (formElement) => {
 const findErrorMessageElements = (formElement, inputList) => {
   const errorMessageElements = {};
   inputList.forEach( (inputElement) => {
-    const errorSelector = `.${inputElement.id}_error`;
+    const errorSelector = `.${inputElement.id}-error`;
     errorMessageElements[inputElement.id] = formElement.querySelector(errorSelector);
   });
   return errorMessageElements;
