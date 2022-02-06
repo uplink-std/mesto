@@ -9,6 +9,10 @@ const selectors = {
 
 const formSelectors = {
   form: '.form',
+  inputErrorClass: 'form__input_error',
+  inputErrorMsgActiveClass: 'form__input-error-msg_active',
+  saveButtonDisabledClass: 'form__save-btn_disabled',
+  submitButton: '.form__save-btn',
 }
 
 const popupSelectors = {
@@ -17,6 +21,7 @@ const popupSelectors = {
   popupEditProfile: '.popup_edit-profile',
   popupAddCard: '.popup_add-card',
   popupViewCard: '.popup_view-card',
+  popupContainer: '.popup__container',
 }
 
 const cardSelectors = {
@@ -37,6 +42,11 @@ const cardDetailsSelectors = {
   name: '.card-details__name'
 }
 
+const customEvents = {
+  popupOpened: 'popupOpeened',
+  popupClosed: 'popupClosed',
+}
+
 const popupEditProfile = document.querySelector(popupSelectors.popupEditProfile);
 const popupAddCard = document.querySelector(popupSelectors.popupAddCard);
 const popupViewCard = document.querySelector(popupSelectors.popupViewCard);
@@ -45,11 +55,13 @@ const profileInfoName = document.querySelector(selectors.profileInfoName);
 const profileInfoOccupation = document.querySelector(selectors.profileInfoOccupation);
 const profileInfoEditButton = document.querySelector(selectors.editButton);
 
+const editProfileForm = popupEditProfile.querySelector(formSelectors.form);
 const profileFormNameInput = popupEditProfile.querySelector(selectors.profileNameInput);
 const profileFormOccupationInput = popupEditProfile.querySelector(selectors.profileOccupationInput);
 
 const cardAddButton = document.querySelector(selectors.addCardButton);
 const cardsContainer = document.querySelector(cardSelectors.cardsContainer);
+const cardForm = popupAddCard.querySelector(formSelectors.form);
 const cardFormNameElement = popupAddCard.querySelector(cardSelectors.formName);
 const cardFormPhotoElement = popupAddCard.querySelector(cardSelectors.formPhoto);
 
@@ -58,10 +70,12 @@ const cardDetailsName = popupViewCard.querySelector(cardDetailsSelectors.name);
 
 const openPopup = (popupElement) => {
   popupElement.classList.add(popupSelectors.popupOpenClass);
+  popupElement.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
 }
 
 const closePopup = (popupElement) => {
   popupElement.classList.remove(popupSelectors.popupOpenClass);
+  popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
 }
 
 const setFormProfile = () => {
@@ -157,11 +171,14 @@ const openCardDetails = (cardPhoto, card) => {
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
+  validateForm(editProfileForm);
   openPopup(popupEditProfile);
 });
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
+  validateForm(cardForm);
+  hideFormErrorMessages(cardForm);
   openPopup(popupAddCard);
 });
 
@@ -181,8 +198,38 @@ const setupCloseButton = ( popupElement ) => {
   closeButton.addEventListener( 'click', () => closePopup(popupElement) );
 };
 
+const popupKeyUpHandler = (event) => {
+  if (event.key === "Escape") {
+    closePopup(popupKeyUpHandler.popupElement);
+  }
+}
+
+const popupOpenedHandler = (event) => {
+  popupKeyUpHandler.popupElement = event.target;
+  document.addEventListener( 'keyup', popupKeyUpHandler);
+}
+
+const popupClosedHandler = () => {
+  document.removeEventListener( 'keyup', popupKeyUpHandler);
+  delete popupKeyUpHandler.popupElement;
+}
+
+const setupPopupOverlay = (popupElement) => {
+  const popupContainer = popupElement.querySelector(popupSelectors.popupContainer);
+  popupContainer.addEventListener( 'click', (event) => {
+    event.stopImmediatePropagation();
+  });
+
+  popupElement.addEventListener( 'click', () => {
+    closePopup(popupElement);
+  });
+};
+
 const setupPopup = ( popupElement, handleSubmit ) => {
+  popupElement.addEventListener( customEvents.popupOpened, popupOpenedHandler);
+  popupElement.addEventListener( customEvents.popupClosed, popupClosedHandler);
   setupCloseButton( popupElement );
+  setupPopupOverlay( popupElement );
   setupFormIfExists( popupElement, handleSubmit );
 }
 
@@ -212,6 +259,17 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+const validationOptions = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__save-btn',
+  inactiveButtonClass: 'form__save-btn_disabled',
+  inputErrorClass: 'form__input-error',
+  errorClass: 'form__input-error-msg_active'
+}
+
+enableValidation(validationOptions);
 
 setupPopup( popupEditProfile, saveProfile );
 setupPopup( popupAddCard, saveCard );
