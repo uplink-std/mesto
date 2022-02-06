@@ -21,6 +21,7 @@ const popupSelectors = {
   popupEditProfile: '.popup_edit-profile',
   popupAddCard: '.popup_add-card',
   popupViewCard: '.popup_view-card',
+  popupContainer: '.popup__container',
 }
 
 const cardSelectors = {
@@ -39,6 +40,11 @@ const cardSelectors = {
 const cardDetailsSelectors = {
   photo: '.card-details__photo',
   name: '.card-details__name'
+}
+
+const customEvents = {
+  popupOpened: 'popupOpeened',
+  popupClosed: 'popupClosed',
 }
 
 const popupEditProfile = document.querySelector(popupSelectors.popupEditProfile);
@@ -64,25 +70,13 @@ const cardDetailsName = popupViewCard.querySelector(cardDetailsSelectors.name);
 
 const openPopup = (popupElement) => {
   popupElement.classList.add(popupSelectors.popupOpenClass);
+  popupElement.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
 }
 
 const closePopup = (popupElement) => {
   popupElement.classList.remove(popupSelectors.popupOpenClass);
+  popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
 }
-
-const popupKeyUpHandler = (event, popupElement) => {
-  if (event.key === "Escape") {
-    if (popupElement.escapeListener) {
-      document.removeEventListener( 'keyup', popupElement.escapeListener );
-    }
-    closePopup(popupElement);
-  }
-}
-
-const setupCloseOnEscape = ( popupElement ) => {
-  popupElement.escapeListener = (event) => popupKeyUpHandler(event, popupElement);
-  document.addEventListener( 'keyup', popupElement.escapeListener);
-};
 
 const setFormProfile = () => {
   profileFormNameInput.value = profileInfoName.textContent;
@@ -173,14 +167,12 @@ const openCardDetails = (cardPhoto, card) => {
   cardDetailsPhoto.alt = card.photoDesc;
   cardDetailsName.textContent = card.name;
   openPopup(popupViewCard);
-  setupCloseOnEscape(popupViewCard);
 }
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
   validateForm(editProfileForm);
   openPopup(popupEditProfile);
-  setupCloseOnEscape(popupEditProfile);
 });
 
 cardAddButton.addEventListener('click', () => {
@@ -188,7 +180,6 @@ cardAddButton.addEventListener('click', () => {
   validateForm(cardForm);
   hideFormErrorMessages(cardForm);
   openPopup(popupAddCard);
-  setupCloseOnEscape(popupAddCard);
 });
 
 const setupFormIfExists = ( popupElement, handleSubmit ) => {
@@ -207,8 +198,38 @@ const setupCloseButton = ( popupElement ) => {
   closeButton.addEventListener( 'click', () => closePopup(popupElement) );
 };
 
+const popupKeyUpHandler = (event) => {
+  if (event.key === "Escape") {
+    closePopup(popupKeyUpHandler.popupElement);
+  }
+}
+
+const popupOpenedHandler = (event) => {
+  popupKeyUpHandler.popupElement = event.target;
+  document.addEventListener( 'keyup', popupKeyUpHandler);
+}
+
+const popupClosedHandler = () => {
+  document.removeEventListener( 'keyup', popupKeyUpHandler);
+  delete popupKeyUpHandler.popupElement;
+}
+
+const setupPopupOverlay = (popupElement) => {
+  const popupContainer = popupElement.querySelector(popupSelectors.popupContainer);
+  popupContainer.addEventListener( 'click', (event) => {
+    event.stopImmediatePropagation();
+  });
+
+  popupElement.addEventListener( 'click', () => {
+    closePopup(popupElement);
+  });
+};
+
 const setupPopup = ( popupElement, handleSubmit ) => {
+  popupElement.addEventListener( customEvents.popupOpened, popupOpenedHandler);
+  popupElement.addEventListener( customEvents.popupClosed, popupClosedHandler);
   setupCloseButton( popupElement );
+  setupPopupOverlay( popupElement );
   setupFormIfExists( popupElement, handleSubmit );
 }
 
