@@ -72,7 +72,6 @@ const closePopup = (popupElement) => {
 
 const popupKeyUpHandler = (event, popupElement) => {
   if (event.key === "Escape") {
-    console.log(`Closing popup ${popupElement.classList}`)
     if (popupElement.escapeListener) {
       document.removeEventListener( 'keyup', popupElement.escapeListener );
     }
