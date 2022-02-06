@@ -198,20 +198,20 @@ const setupCloseButton = ( popupElement ) => {
   closeButton.addEventListener( 'click', () => closePopup(popupElement) );
 };
 
-const popupKeyUpHandler = (event) => {
+const closePopupOnEscapePress = (event) => {
   if (event.key === "Escape") {
-    closePopup(popupKeyUpHandler.popupElement);
+    closePopup(closePopupOnEscapePress.popupElement);
   }
 }
 
-const popupOpenedHandler = (event) => {
-  popupKeyUpHandler.popupElement = event.target;
-  document.addEventListener( 'keyup', popupKeyUpHandler);
+const handlePopupOpenEvent = (event) => {
+  closePopupOnEscapePress.popupElement = event.target;
+  document.addEventListener( 'keyup', closePopupOnEscapePress);
 }
 
-const popupClosedHandler = () => {
-  document.removeEventListener( 'keyup', popupKeyUpHandler);
-  delete popupKeyUpHandler.popupElement;
+const handlePopupCloseEvent = () => {
+  document.removeEventListener( 'keyup', closePopupOnEscapePress);
+  delete closePopupOnEscapePress.popupElement;
 }
 
 const setupPopupOverlay = (popupElement) => {
@@ -226,8 +226,8 @@ const setupPopupOverlay = (popupElement) => {
 };
 
 const setupPopup = ( popupElement, handleSubmit ) => {
-  popupElement.addEventListener( customEvents.popupOpened, popupOpenedHandler);
-  popupElement.addEventListener( customEvents.popupClosed, popupClosedHandler);
+  popupElement.addEventListener( customEvents.popupOpened, handlePopupOpenEvent);
+  popupElement.addEventListener( customEvents.popupClosed, handlePopupCloseEvent);
   setupCloseButton( popupElement );
   setupPopupOverlay( popupElement );
   setupFormIfExists( popupElement, handleSubmit );
