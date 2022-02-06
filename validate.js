@@ -63,16 +63,19 @@ const enableSubmitButton = (formContext) => {
   formContext.submitButton.removeAttribute("disabled" );
 }
 
-
-const validateForm = (formElement) => {
-  const formContext = getFormContext(formElement);
-  formContext.inputList.forEach( (inputElement) => renderInputValidityState(inputElement, formContext) );
-
+const renderSubmitButtonValidityState = (formContext) => {
   if ( hasInvalidData(formContext.inputList) ) {
     disableSubmitButton(formContext);
   } else {
     enableSubmitButton(formContext);
   }
+};
+
+
+const validateForm = (formElement) => {
+  const formContext = getFormContext(formElement);
+  formContext.inputList.forEach( (inputElement) => renderInputValidityState(inputElement, formContext) );
+  renderSubmitButtonValidityState(formContext);
 }
 
 
