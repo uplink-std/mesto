@@ -3,8 +3,9 @@ import { ProfileForm } from "./ProfileForm.js";
 
 class ProfileView {
 
-  constructor(selector) {
+  constructor(selector, handleAddButtonClick) {
     this._selector = selector;
+    this._handleAddButtonClick = handleAddButtonClick;
     this._setElements();
   }
 
@@ -27,7 +28,9 @@ class ProfileView {
     this._nameElement = this._element.querySelector('.profile__info-name');
     this._occupationElement = this._element.querySelector('.profile__info-occupation');
     this._editButtonElement = this._element.querySelector('.profile__edit-btn');
+    this._addButtonElement = this._element.querySelector('.profile__add-btn');
     this._editButtonElement.addEventListener( 'click', () => this._handleEditButtonClick());
+    this._addButtonElement.addEventListener( 'click', () => this._handleAddButtonClick());
   }
 
   _handleEditButtonClick() {

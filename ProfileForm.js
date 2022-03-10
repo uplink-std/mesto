@@ -5,7 +5,6 @@ class ProfileForm extends Form {
 
   constructor(selector, handleSubmitEvent) {
     super(selector, handleSubmitEvent);
-    this._setupElements();
   }
 
   setModel(profile) {

@@ -1,5 +1,7 @@
 import { Card } from "./Card.js";
 import { ProfileView } from "./ProfileView.js";
+import { Popup } from "./Popup.js";
+import { CardForm } from "./CardForm.js";
 
 const cardSelectors = {
   template: '#element-template',
@@ -58,5 +60,22 @@ addCards( initialCards.map( (card) => {
   }
 }));
 
-const profile = new ProfileView('.profile');
+const cardFormPopup = new Popup('.popup_add-card');
+
+const handleCardFormSubmit = (event, form) => {
+  cardFormPopup.close();
+  const cardModel = form.getModel();
+  const data = {
+    name: cardModel.name,
+    photo: cardModel.photo,
+    photoDesc: cardModel.name,
+    liked: false
+  }
+
+  addCard(data);
+}
+
+const cardForm = new CardForm('.card-form', (event, form) => handleCardFormSubmit(event, form));
+const profile = new ProfileView('.profile', (e) => cardFormPopup.open());
+
 profile.setProfile({ name: "Жак-Ив Кусто", occupation: "Исследователь океана" });

@@ -15,6 +15,7 @@ class Form {
   }
 
   _setupElements() {
+    console.log(`setup elements ${this.constructor.name}`)
     this._element = document.querySelector(this._selector);
     this._submitElement = this._element.querySelector('.form__save-btn');
     this._element.addEventListener('submit', (e) => this._handleSubmitEventInternal(e));
