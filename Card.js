@@ -1,7 +1,5 @@
-import { Popup } from "./Popup.js"
-import { CardDetailsView } from "./CardDetailsView.js"
-
 const cardSelectors = {
+  template: '#element-template',
   element: '.element',
   photo: '.element__photo',
   name: '.element__name',
@@ -13,9 +11,31 @@ const cardSelectors = {
   formPhoto: '.card-form__photo',
 }
 
-const viewCardPopup = new Popup(".popup_view-card");
+const popupSelectors = {
+  popupCloseButton: '.popup__close-btn',
+  popupOpenClass: 'popup_opened',
+  popupEditProfile: '.popup_edit-profile',
+  popupAddCard: '.popup_add-card',
+  popupViewCard: '.popup_view-card',
+  popupContainer: '.popup__container',
+}
 
-const cardDetailsView = new CardDetailsView('.card-details');
+const customEvents = {
+  popupOpened: 'popupOpeened',
+  popupClosed: 'popupClosed',
+}
+
+const popupViewCard = document.querySelector('.popup_view-card');
+
+const openPopup = (popupElement) => {
+  popupElement.classList.add(popupSelectors.popupOpenClass);
+  popupElement.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
+}
+
+const closePopup = (popupElement) => {
+  popupElement.classList.remove(popupSelectors.popupOpenClass);
+  popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
+}
 
 class Card {
 
@@ -34,6 +54,7 @@ class Card {
     this._initCardName();
     this._initCardLikeButton();
     this._initTrashButton();
+    this._initCardDetails();
     return this._element;
   }
 
@@ -45,8 +66,10 @@ class Card {
   }
 
   _openCardDetails() {
-    cardDetailsView.setCard(this._name, this._photo, this._photoDesc);
-    viewCardPopup.open();
+    this._detailsName.textContent = this._name;
+    this._detailsPhoto.src = this._photo;
+    this._detailsPhoto.alt = this._photoDesc;
+    openPopup(popupViewCard)
   }
 
   _initCardName() {
@@ -74,6 +97,12 @@ class Card {
   _removeCard() {
     this._element.remove();
   }
+
+  _initCardDetails() {
+    this._popupViewCard = document.querySelector('.popup_view-card');
+    this._detailsPhoto = this._popupViewCard.querySelector('.card-details__photo');
+    this._detailsName = this._popupViewCard.querySelector('.card-details__name');
+  }
 }
 
-export { Card };
+export { Card, openPopup, closePopup, popupViewCard, cardSelectors, popupSelectors, customEvents };
