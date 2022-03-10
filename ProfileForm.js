@@ -1,29 +1,29 @@
-class ProfileForm {
+import { Form } from "./Form.js"
 
-  constructor(selector) {
-    this._selector = selector;
+
+class ProfileForm extends Form {
+
+  constructor(selector, handleSubmitEvent) {
+    super(selector, handleSubmitEvent);
     this._setupElements();
   }
 
-  setProfile(profile) {
-    this._profile = profile;
-    this._render();
+  setModel(profile) {
+    this._nameInputElement.value = profile.name;
+    this._occupationInputElement.value = profile.occupation;
   }
 
-  getProfile() {
-    return { ...this._profile };
+  getModel() {
+    return {
+      name: this._nameInputElement.value,
+      occupation: this._occupationInputElement.value,
+    };
   }
 
   _setupElements() {
-    this._element = document.querySelector(this._selector);
+    super._setupElements();
     this._nameInputElement = this._element.querySelector('.profile-form__name');
     this._occupationInputElement = this._element.querySelector('.profile-form__occupation');
-  }
-
-  _render() {
-    console.log(`RENDER: ProfileForm with model: ${JSON.stringify(this._profile)}`);
-    this._nameInputElement.value = this._profile.name;
-    this._occupationInputElement.value = this._profile.occupation;
   }
 
 }

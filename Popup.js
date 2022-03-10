@@ -31,11 +31,11 @@ class Popup {
 
   _setupPopupOverlay() {
     const popupContainer = this._popupElement.querySelector(popupSelectors.popupContainer);
-    popupContainer.addEventListener( 'click', (event) => {
+    popupContainer.addEventListener( 'mousedown', (event) => {
       event.stopImmediatePropagation();
     });
 
-    this._popupElement.addEventListener( 'click', () => {
+    this._popupElement.addEventListener( 'mousedown', () => {
       this.close();
     });
   };

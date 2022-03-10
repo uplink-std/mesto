@@ -1,5 +1,5 @@
 import { Card } from "./Card.js";
-import { Profile } from "./Profile.js";
+import { ProfileView } from "./ProfileView.js";
 
 const cardSelectors = {
   template: '#element-template',
@@ -58,5 +58,5 @@ addCards( initialCards.map( (card) => {
   }
 }));
 
-const profile = new Profile('.profile');
+const profile = new ProfileView('.profile');
 profile.setProfile({ name: "Жак-Ив Кусто", occupation: "Исследователь океана" });
