@@ -77,13 +77,13 @@ const resetCardForm = () => {
 
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
-  // TODO: validateForm(editProfileForm);
+  editProfileForm.validator.validateForm();
   openPopup(popupEditProfile);
 });
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
-  // TODO: cardForm.validator.validateForm();
+  cardForm.validator.validateForm();
   cardForm.validator.hideFormErrorMessages();
   openPopup(popupAddCard);
 });
@@ -101,7 +101,9 @@ const setupFormIfExists = ( popupElement, handleSubmit ) => {
 
 const setupCloseButton = ( popupElement ) => {
   const closeButton = popupElement.querySelector(popupSelectors.popupCloseButton);
-  closeButton.addEventListener( 'click', () => closePopup(popupElement) );
+  closeButton.addEventListener( 'click', () => {
+    closePopup(popupElement);
+  } );
 };
 
 const closePopupOnEscapePress = (event) => {

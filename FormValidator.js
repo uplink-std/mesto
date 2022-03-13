@@ -14,13 +14,18 @@ class FormValidator {
     this._inputList.forEach( (inputElement) => {
       inputElement.addEventListener( 'input', () => {
         this._formElement.checkValidity();
-        this._validateForm();
+        this.validateForm();
       });
     });
   }
 
   hideFormErrorMessages() {
-    this._inputList.forEach( (inputElement) => hideInputError(inputElement));
+    this._inputList.forEach( (inputElement) => this._hideInputError(inputElement));
+  }
+
+  validateForm() {
+    this._inputList.forEach( (inputElement) => this._renderInputValidityState(inputElement) );
+    this._renderSubmitButtonValidityState();
   }
 
   _findErrorMessageElements(formElement, inputList) {
@@ -30,11 +35,6 @@ class FormValidator {
       errorMessageElements[inputElement.id] = formElement.querySelector(errorSelector);
     });
     return errorMessageElements;
-  }
-
-  _validateForm() {
-    this._inputList.forEach( (inputElement) => this._renderInputValidityState(inputElement) );
-    this._renderSubmitButtonValidityState();
   }
 
   _renderInputValidityState = (inputElement) => {
