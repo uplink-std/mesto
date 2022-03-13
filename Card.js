@@ -21,21 +21,11 @@ const popupSelectors = {
 }
 
 const customEvents = {
-  popupOpened: 'popupOpeened',
+  popupOpened: 'popupOpened',
   popupClosed: 'popupClosed',
 }
 
-const popupViewCard = document.querySelector('.popup_view-card');
-
-const openPopup = (popupElement) => {
-  popupElement.classList.add(popupSelectors.popupOpenClass);
-  popupElement.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
-}
-
-const closePopup = (popupElement) => {
-  popupElement.classList.remove(popupSelectors.popupOpenClass);
-  popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
-}
+const popupViewCard = document.querySelector(popupSelectors.popupViewCard);
 
 class Card {
 
@@ -69,7 +59,7 @@ class Card {
     this._detailsName.textContent = this._name;
     this._detailsPhoto.src = this._photo;
     this._detailsPhoto.alt = this._photoDesc;
-    openPopup(popupViewCard)
+    popupViewCard.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
   }
 
   _initCardName() {
@@ -99,10 +89,9 @@ class Card {
   }
 
   _initCardDetails() {
-    this._popupViewCard = document.querySelector('.popup_view-card');
-    this._detailsPhoto = this._popupViewCard.querySelector('.card-details__photo');
-    this._detailsName = this._popupViewCard.querySelector('.card-details__name');
+    this._detailsPhoto = popupViewCard.querySelector('.card-details__photo');
+    this._detailsName = popupViewCard.querySelector('.card-details__name');
   }
 }
 
-export { Card, openPopup, closePopup, popupViewCard, cardSelectors, popupSelectors, customEvents };
+export { Card, popupViewCard, cardSelectors, popupSelectors, customEvents };

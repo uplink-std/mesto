@@ -1,4 +1,4 @@
-import { Card, openPopup, closePopup, popupViewCard, cardSelectors, popupSelectors, customEvents } from "./Card.js";
+import { Card, popupViewCard, cardSelectors, popupSelectors, customEvents } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 
 const selectors = {
@@ -34,7 +34,6 @@ const cardsContainer = document.querySelector(cardSelectors.cardsContainer);
 const cardForm = popupAddCard.querySelector(formSelectors.form);
 const cardFormNameElement = popupAddCard.querySelector(cardSelectors.formName);
 const cardFormPhotoElement = popupAddCard.querySelector(cardSelectors.formPhoto);
-
 
 const setFormProfile = () => {
   profileFormNameInput.value = profileInfoName.textContent;
@@ -78,14 +77,14 @@ const resetCardForm = () => {
 profileInfoEditButton.addEventListener( 'click', () => {
   setFormProfile();
   editProfileForm.validator.validateForm();
-  openPopup(popupEditProfile);
+  popupEditProfile.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
 });
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
   cardForm.validator.validateForm();
   cardForm.validator.hideFormErrorMessages();
-  openPopup(popupAddCard);
+  popupAddCard.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
 });
 
 const setupFormIfExists = ( popupElement, handleSubmit ) => {
@@ -94,7 +93,7 @@ const setupFormIfExists = ( popupElement, handleSubmit ) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       handleSubmit(popupElement);
-      closePopup(popupElement);
+      popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
     });
   }
 }
@@ -102,24 +101,29 @@ const setupFormIfExists = ( popupElement, handleSubmit ) => {
 const setupCloseButton = ( popupElement ) => {
   const closeButton = popupElement.querySelector(popupSelectors.popupCloseButton);
   closeButton.addEventListener( 'click', () => {
-    closePopup(popupElement);
+    popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}))
   } );
 };
 
 const closePopupOnEscapePress = (event) => {
   if (event.key === "Escape") {
-    closePopup(closePopupOnEscapePress.popupElement);
+    closePopupOnEscapePress.popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
   }
 }
 
 const handlePopupOpenEvent = (event) => {
   closePopupOnEscapePress.popupElement = event.target;
+  closePopupOnEscapePress.popupElement.classList.add(popupSelectors.popupOpenClass);
   document.addEventListener( 'keyup', closePopupOnEscapePress);
 }
 
 const handlePopupCloseEvent = () => {
+  if (closePopupOnEscapePress.popupElement) {
+    closePopupOnEscapePress.popupElement.classList.remove(popupSelectors.popupOpenClass);
+    delete closePopupOnEscapePress.popupElement;
+  }
+
   document.removeEventListener( 'keyup', closePopupOnEscapePress);
-  delete closePopupOnEscapePress.popupElement;
 }
 
 const setupPopupOverlay = (popupElement) => {
@@ -129,7 +133,7 @@ const setupPopupOverlay = (popupElement) => {
   });
 
   popupElement.addEventListener( 'mousedown', () => {
-    closePopup(popupElement);
+    popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
   });
 };
 
