@@ -1,4 +1,5 @@
 import { Card, openPopup, closePopup, popupViewCard, cardSelectors, popupSelectors, customEvents } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
 const selectors = {
   profileNameInput: '.profile-form__name',
@@ -17,11 +18,8 @@ const formSelectors = {
   submitButton: '.form__save-btn',
 }
 
-
-
 const popupEditProfile = document.querySelector(popupSelectors.popupEditProfile);
 const popupAddCard = document.querySelector(popupSelectors.popupAddCard);
-
 
 const profileInfoName = document.querySelector(selectors.profileInfoName);
 const profileInfoOccupation = document.querySelector(selectors.profileInfoOccupation);
@@ -85,8 +83,8 @@ profileInfoEditButton.addEventListener( 'click', () => {
 
 cardAddButton.addEventListener('click', () => {
   resetCardForm();
-  // TODO: validateForm(cardForm);
-  // TODO: hideFormErrorMessages(cardForm);
+  // TODO: cardForm.validator.validateForm();
+  cardForm.validator.hideFormErrorMessages();
   openPopup(popupAddCard);
 });
 
@@ -177,7 +175,12 @@ const validationOptions = {
   errorClass: 'form__input-error-msg_active'
 }
 
-// TODO: enableValidation(validationOptions);
+const forms = Array.from(document.querySelectorAll(validationOptions.formSelector));
+forms.forEach( (form) => {
+  const formValidator = new FormValidator(validationOptions, form);
+  formValidator.enableValidation();
+  form.validator = formValidator;
+});
 
 setupPopup( popupEditProfile, saveProfile );
 setupPopup( popupAddCard, saveCard );
