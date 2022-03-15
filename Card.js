@@ -1,3 +1,5 @@
+import { openPopup } from "./index.js";
+
 const cardSelectors = {
   template: '#element-template',
   element: '.element',
@@ -59,7 +61,7 @@ class Card {
     this._detailsName.textContent = this._name;
     this._detailsPhoto.src = this._photo;
     this._detailsPhoto.alt = this._photoDesc;
-    popupViewCard.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
+    openPopup(popupViewCard);
   }
 
   _initCardName() {
