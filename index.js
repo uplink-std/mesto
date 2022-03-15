@@ -55,9 +55,7 @@ const saveProfile = () => {
   profileInfoOccupation.textContent = profileFormOccupationInput.value;
 }
 
-const addCard = (data, atStart = false) => {
-  const card = new Card(data, cardSelectors.template);
-  const cardElement = card.generateDomElement();
+const addCard = (cardElement, atStart = false) => {
   if (atStart) {
     cardsContainer.prepend(cardElement);
   } else {
@@ -65,8 +63,13 @@ const addCard = (data, atStart = false) => {
   }
 }
 
+const createCardElement = (data) => {
+  const card = new Card(data, cardSelectors.template);
+  return card.generateDomElement();
+}
+
 const addCards = (cards) => {
-  cards.forEach( (card) => addCard(card) );
+  cards.forEach( (card) => addCard( createCardElement(card) ) );
 }
 
 const saveCard = () => {
@@ -76,7 +79,7 @@ const saveCard = () => {
     photoDesc: cardFormNameElement.value,
     liked: false,
   };
-  addCard(card, true);
+  addCard( createCardElement(card), true);
 }
 
 const resetCardForm = () => {
