@@ -2,7 +2,7 @@
   padding: 0;
   justify-self: start;
   grid-area: edit-btn;
-  background-image: url(./../../../images/edit-btn.svg);
+  background-image: url(../../../images/edit-btn.svg);
   background-color: #000;
   background-repeat: no-repeat;
   background-size: 100%;
