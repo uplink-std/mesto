@@ -1,3 +1,4 @@
+import './pages/index.css';
 import { Card, popupViewCard, cardSelectors, popupSelectors, customEvents } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 
