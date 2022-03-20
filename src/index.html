@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Проект: Место</title>
     <link rel="stylesheet" href="pages/index.css">
-    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<%=require('./images/favicon.ico')%> ">
   </head>
   <body class="page">
     <div class="page__container">
 
       <header class="header">
-        <img class="header__logo" src="images/logo.svg" alt="логотип mesto">
+        <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="логотип mesto">
       </header>
 
       <main class="content">
 
         <section class="profile">
-          <img class="profile__avatar" src="images/avatar.jpg" alt="аватар персоны">
+          <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="аватар персоны">
           <div class="profile__info">
             <h1 class="profile__info-name abridgment">Жак-Ив Кусто</h1>
             <p class="profile__info-occupation abridgment">Исследователь океана</p>
