@@ -31,12 +31,13 @@ const popupViewCard = document.querySelector(popupSelectors.popupViewCard);
 
 class Card {
 
-  constructor(card, templateSelector) {
+  constructor(card, templateSelector, handleCardClick) {
     this._name = card.name;
     this._photo = card.photo;
     this._photoDesc = card.photoDesc;
     this._liked = card.liked;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick.bind(this);
   }
 
   generateDomElement() {
@@ -54,14 +55,7 @@ class Card {
     const photoElement = this._element.querySelector(cardSelectors.photo);
     photoElement.src = this._photo;
     photoElement.alt = this._photoDesc;
-    photoElement.addEventListener( 'click', () => this._openCardDetails());
-  }
-
-  _openCardDetails() {
-    this._detailsName.textContent = this._name;
-    this._detailsPhoto.src = this._photo;
-    this._detailsPhoto.alt = this._photoDesc;
-    openPopup(popupViewCard);
+    photoElement.addEventListener( 'click', this._handleCardClick);
   }
 
   _initCardName() {
