@@ -54,3 +54,5 @@ class Popup {
   };
 
 }
+
+export { Popup };
