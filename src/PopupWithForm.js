@@ -1,0 +1,3 @@
+class PopupWithForm extends Popup {
+
+}
