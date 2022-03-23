@@ -1,7 +1,7 @@
 .page__container {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   max-width: 880px;
   margin: 45px auto 60px;
