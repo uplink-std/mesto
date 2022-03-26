@@ -1,6 +1,7 @@
 import './pages/index.css';
-import { Card, popupViewCard, cardSelectors, popupSelectors, customEvents } from "./Card.js";
+import { Card, cardSelectors, popupSelectors, customEvents } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
+import {PopupWithImage} from "./PopupWithImage";
 
 const selectors = {
   profileNameInput: '.profile-form__name',
@@ -36,6 +37,9 @@ const cardForm = popupAddCard.querySelector(formSelectors.form);
 const cardFormNameElement = popupAddCard.querySelector(cardSelectors.formName);
 const cardFormPhotoElement = popupAddCard.querySelector(cardSelectors.formPhoto);
 
+const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
+popupViewCard.setEventListeners();
+
 const openPopup = (popupElement) => {
   popupElement.classList.add(popupSelectors.popupOpenClass);
   popupElement.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
@@ -64,9 +68,16 @@ const addCard = (cardElement, atStart = false) => {
   }
 }
 
+function openCardDetails(event) {
+  popupViewCard.setImage(this._photo, this._name);
+  popupViewCard.open();
+}
+
 const createCardElement = (data) => {
-  const card = new Card(data, cardSelectors.template);
-  return card.generateDomElement();
+  const card = new Card(data, cardSelectors.template, openCardDetails);
+  const element = card.generateDomElement();
+  element.card = card;
+  return element;
 }
 
 const addCards = (cards) => {
@@ -202,7 +213,6 @@ forms.forEach( (form) => {
 
 setupPopup( popupEditProfile, saveProfile );
 setupPopup( popupAddCard, saveCard );
-setupPopup( popupViewCard );
 
 addCards( initialCards.map( (card) => {
   return {
