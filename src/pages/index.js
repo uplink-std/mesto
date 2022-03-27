@@ -1,10 +1,10 @@
-import './pages/index.css';
-import { Card, cardSelectors } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
-import {PopupWithImage} from "./PopupWithImage";
-import {PopupWithForm} from "./PopupWithForm";
-import {UserInfo} from "./UserInfo";
-import {Section} from "./Section";
+import './index.css';
+import { Card, cardSelectors } from "../Card.js";
+import { FormValidator } from "../FormValidator.js";
+import {PopupWithImage} from "../PopupWithImage";
+import {PopupWithForm} from "../PopupWithForm";
+import {UserInfo} from "../UserInfo";
+import {Section} from "../Section";
 
 const popupSelectors = {
   popupCloseButton: '.popup__close-btn',
