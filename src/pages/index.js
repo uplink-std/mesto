@@ -1,5 +1,5 @@
 import './index.css';
-import { Card, cardSelectors } from "../components/Card.js";
+import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import {PopupWithImage} from "../components/PopupWithImage";
 import {PopupWithForm} from "../components/PopupWithForm";
@@ -50,7 +50,7 @@ function openCardDetails() {
 }
 
 const createCardElement = (data) => {
-  const card = new Card(data, cardSelectors.template, openCardDetails);
+  const card = new Card(data, '#element-template', openCardDetails);
   const element = card.generateDomElement();
   element.card = card;
   return element;
@@ -104,7 +104,7 @@ const cardsContainer = new Section(
     items: mapInitialCards(initialCards),
     renderer: renderCard
   },
-  cardSelectors.cardsContainer
+  '.elements__list'
 );
 
 cardsContainer.renderItems();
