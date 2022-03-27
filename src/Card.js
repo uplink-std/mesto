@@ -20,11 +20,6 @@ const popupSelectors = {
   popupContainer: '.popup__container',
 }
 
-const customEvents = {
-  popupOpened: 'popupOpened',
-  popupClosed: 'popupClosed',
-}
-
 class Card {
 
   constructor(card, templateSelector, handleCardClick) {
@@ -47,11 +42,17 @@ class Card {
     return this._element;
   }
 
+  getImage() {
+    return {
+      name: this._photoDesc,
+      source: this._photo
+    }
+  }
+
   _initCardPhoto() {
     const photoElement = this._element.querySelector(cardSelectors.photo);
     photoElement.src = this._photo;
     photoElement.alt = this._photoDesc;
-    console.dir(this._handleCardClick);
     photoElement.addEventListener( 'click', this._handleCardClick.bind(this));
   }
 
@@ -80,10 +81,6 @@ class Card {
   _removeCard() {
     this._element.remove();
   }
-
-  log() {
-    console.log(`name: ${this._name}, photo: ${this._photo}`);
-  }
 }
 
-export { Card, cardSelectors, popupSelectors, customEvents };
+export { Card, cardSelectors, popupSelectors };

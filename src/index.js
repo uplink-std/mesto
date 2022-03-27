@@ -1,7 +1,9 @@
 import './pages/index.css';
-import { Card, cardSelectors, popupSelectors, customEvents } from "./Card.js";
+import { Card, cardSelectors, popupSelectors } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 import {PopupWithImage} from "./PopupWithImage";
+import {PopupWithForm} from "./PopupWithForm";
+import {UserInfo} from "./UserInfo";
 
 const selectors = {
   profileNameInput: '.profile-form__name',
@@ -12,33 +14,16 @@ const selectors = {
   addCardButton: '.profile__add-btn',
 };
 
-const formSelectors = {
-  form: '.form',
-  inputErrorClass: 'form__input_error',
-  inputErrorMsgActiveClass: 'form__input-error-msg_active',
-  saveButtonDisabledClass: 'form__save-btn_disabled',
-  submitButton: '.form__save-btn',
-}
+const userInfoSelectors = {
+  nameSelector: '.profile__info-name',
+  occupationSelector: '.profile__info-occupation',
+  editButton: '.profile__edit-btn',
+  addCardButton: '.profile__add-btn',
+};
 
-const popupEditProfile = document.querySelector(popupSelectors.popupEditProfile);
-const popupAddCard = document.querySelector(popupSelectors.popupAddCard);
-
-const profileInfoName = document.querySelector(selectors.profileInfoName);
-const profileInfoOccupation = document.querySelector(selectors.profileInfoOccupation);
 const profileInfoEditButton = document.querySelector(selectors.editButton);
-
-const editProfileForm = popupEditProfile.querySelector(formSelectors.form);
-const profileFormNameInput = popupEditProfile.querySelector(selectors.profileNameInput);
-const profileFormOccupationInput = popupEditProfile.querySelector(selectors.profileOccupationInput);
-
 const cardAddButton = document.querySelector(selectors.addCardButton);
 const cardsContainer = document.querySelector(cardSelectors.cardsContainer);
-const cardForm = popupAddCard.querySelector(formSelectors.form);
-const cardFormNameElement = popupAddCard.querySelector(cardSelectors.formName);
-const cardFormPhotoElement = popupAddCard.querySelector(cardSelectors.formPhoto);
-
-const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
-popupViewCard.setEventListeners();
 
 const addCard = (cardElement, atStart = false) => {
   if (atStart) {
@@ -48,8 +33,9 @@ const addCard = (cardElement, atStart = false) => {
   }
 }
 
-function openCardDetails(event) {
-  popupViewCard.setImage(this._photo, this._name);
+function openCardDetails() {
+  const image = this.getImage();
+  popupViewCard.setImage(image.source, image.name);
   popupViewCard.open();
 }
 
@@ -90,6 +76,28 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
+popupViewCard.setEventListeners();
+
+const userInfo = new UserInfo(userInfoSelectors);
+
+const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, function handleSubmitProfile(e) {
+  e.preventDefault();
+  userInfo.setUserInfo( popupUserInfo.getValues() );
+  popupUserInfo.close();
+});
+
+popupUserInfo.setEventListeners();
+
+profileInfoEditButton.addEventListener('click', function openUserInfoEditForm() {
+  popupUserInfo.setValues( userInfo.getUserInfo() );
+  popupUserInfo.open();
+});
+
+cardAddButton.addEventListener('click', function openAddCardForm() {
+  console.log("TODO: Implement.");
+});
 
 const validationOptions = {
   formSelector: '.form',

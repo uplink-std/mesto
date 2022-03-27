@@ -44,11 +44,11 @@
           <button class="popup__close-btn" type="button"></button>
           <h2 class="form__title">Редактировать&nbsp;профиль</h2>
           <fieldset class="form__fieldset">
-            <input id="profile-form__name" class="profile-form__name form__input" type="text" value=""
+            <input id="profile-form__name" class="profile-form__name form__input" type="text" name="name" value=""
                    required minlength="2" maxlength="40">
             <span class="profile-form__name-error form__input-error-msg"></span>
             <input id="profile-form__occupation" class="profile-form__occupation form__input"
-                   type="text" value="" required minlength="2" maxlength="200">
+                   type="text" name="occupation" value="" required minlength="2" maxlength="200">
             <span class="profile-form__occupation-error form__input-error-msg"></span>
           </fieldset>
           <button class="form__save-btn" type="submit">
@@ -64,10 +64,10 @@
           <button class="popup__close-btn" type="button"></button>
           <h2 class="form__title">Новое&nbsp;место</h2>
           <fieldset class="form__fieldset">
-            <input id="card-form__name" class="card-form__name form__input" type="text" placeholder="Название" value=""
+            <input id="card-form__name" class="card-form__name form__input" type="text" placeholder="Название" name="name" value=""
                    required minlength="2" maxlength="30">
             <span class="card-form__name-error form__input-error-msg"></span>
-            <input id="card-form__photo" class="card-form__photo form__input" placeholder="Ссылка на картинку" value=""
+            <input id="card-form__photo" class="card-form__photo form__input" placeholder="Ссылка на картинку" name="photo" value=""
                    required type="url" pattern="(http|https|ftp|ftps|sftp|file)+://.+">
             <span class="card-form__photo-error form__input-error-msg"></span>
           </fieldset>

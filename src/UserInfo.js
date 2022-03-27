@@ -8,8 +8,8 @@ class UserInfo {
 
   getUserInfo() {
     return {
-      name: this._nameElement,
-      occupation: this._occupationElement
+      name: this._nameElement.textContent,
+      occupation: this._occupationElement.textContent
     };
   }
 
