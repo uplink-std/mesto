@@ -5,7 +5,7 @@
   right: calc(-8px - var(--button-size));
   min-width:  var(--button-size);
   min-height: var(--button-size);
-  background-image: url(./../../../images/close-icon.svg);
+  background-image: url(../../../images/close-icon.svg);
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center;
