@@ -83,8 +83,6 @@ const initialCards = [
   }
 ];
 
-window.initialCards = initialCards;
-
 function renderCard(item) {
   const element = createCardElement(item);
   cardsContainer.addItem(element);
