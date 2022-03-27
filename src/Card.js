@@ -11,15 +11,6 @@ const cardSelectors = {
   formPhoto: '.card-form__photo',
 }
 
-const popupSelectors = {
-  popupCloseButton: '.popup__close-btn',
-  popupOpenClass: 'popup_opened',
-  popupEditProfile: '.popup_edit-profile',
-  popupAddCard: '.popup_add-card',
-  popupViewCard: '.popup_view-card',
-  popupContainer: '.popup__container',
-}
-
 class Card {
 
   constructor(card, templateSelector, handleCardClick) {
@@ -83,4 +74,4 @@ class Card {
   }
 }
 
-export { Card, cardSelectors, popupSelectors };
+export { Card, cardSelectors };

@@ -1,18 +1,19 @@
 import './pages/index.css';
-import { Card, cardSelectors, popupSelectors } from "./Card.js";
+import { Card, cardSelectors } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 import {PopupWithImage} from "./PopupWithImage";
 import {PopupWithForm} from "./PopupWithForm";
 import {UserInfo} from "./UserInfo";
+import {Section} from "./Section";
 
-const selectors = {
-  profileNameInput: '.profile-form__name',
-  profileOccupationInput: '.profile-form__occupation',
-  profileInfoName: '.profile__info-name',
-  profileInfoOccupation: '.profile__info-occupation',
-  editButton: '.profile__edit-btn',
-  addCardButton: '.profile__add-btn',
-};
+const popupSelectors = {
+  popupCloseButton: '.popup__close-btn',
+  popupOpenClass: 'popup_opened',
+  popupEditProfile: '.popup_edit-profile',
+  popupAddCard: '.popup_add-card',
+  popupViewCard: '.popup_view-card',
+  popupContainer: '.popup__container',
+}
 
 const userInfoSelectors = {
   nameSelector: '.profile__info-name',
@@ -21,17 +22,8 @@ const userInfoSelectors = {
   addCardButton: '.profile__add-btn',
 };
 
-const profileInfoEditButton = document.querySelector(selectors.editButton);
-const cardAddButton = document.querySelector(selectors.addCardButton);
-const cardsContainer = document.querySelector(cardSelectors.cardsContainer);
-
-const addCard = (cardElement, atStart = false) => {
-  if (atStart) {
-    cardsContainer.prepend(cardElement);
-  } else {
-    cardsContainer.append(cardElement);
-  }
-}
+const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
+const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
 
 function openCardDetails() {
   const image = this.getImage();
@@ -44,10 +36,6 @@ const createCardElement = (data) => {
   const element = card.generateDomElement();
   element.card = card;
   return element;
-}
-
-const addCards = (cards) => {
-  cards.forEach( (card) => addCard( createCardElement(card) ) );
 }
 
 const initialCards = [
@@ -77,6 +65,34 @@ const initialCards = [
   }
 ];
 
+window.initialCards = initialCards;
+
+function renderCard(item) {
+  const element = createCardElement(item);
+  cardsContainer.addItem(element);
+}
+
+const mapInitialCards = (initialsCards) => {
+  return initialsCards.map( card => {
+    return {
+      name: card.name,
+      photo: card.link,
+      photoDesc: card.name,
+      liked: false
+    }
+  }).reverse();
+}
+
+const cardsContainer = new Section(
+  {
+    items: mapInitialCards(initialCards),
+    renderer: renderCard
+  },
+  cardSelectors.cardsContainer
+);
+
+cardsContainer.renderItems();
+
 const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
 popupViewCard.setEventListeners();
 
@@ -90,10 +106,20 @@ const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, functio
 
 popupUserInfo.setEventListeners();
 
+const mapFormCard = (values) => {
+  return {
+    name: values.name,
+    photo: values.photo,
+    photoDesc: values.name,
+    liked: false
+  }
+}
+
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, function handleSubmitAddCard(e) {
   e.preventDefault();
-  popupAddCard.getValues();
-  console.log(`created card: ${JSON.stringify(popupAddCard.getValues())}`)
+  const cardData = mapFormCard(popupAddCard.getValues());
+  cardsContainer.addItem(createCardElement(cardData));
+  popupAddCard.close();
 });
 popupAddCard.setEventListeners();
 
@@ -121,12 +147,3 @@ forms.forEach( (form) => {
   formValidator.enableValidation();
   form.validator = formValidator;
 });
-
-addCards( initialCards.map( (card) => {
-  return {
-    name: card.name,
-    photo: card.link,
-    photoDesc: card.name,
-    liked: false
-  }
-}));
