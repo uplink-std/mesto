@@ -31,11 +31,14 @@ const validationOptions = {
   errorClass: 'form__input-error-msg_active'
 }
 
-const userInfoValidator = new FormValidator(validationOptions, document.forms['profile']);
-userInfoValidator.enableValidation();
+const createFormValidator = (name) => {
+  const validator = new FormValidator(validationOptions, document.forms[name]);
+  validator.enableValidation();
+  return validator;
+}
 
-const addCardValidator = new FormValidator(validationOptions, document.forms['card']);
-addCardValidator.enableValidation();
+const userInfoValidator = createFormValidator('profile');
+const addCardValidator = createFormValidator('card');
 
 const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
 const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
