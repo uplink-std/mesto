@@ -40,26 +40,6 @@ const cardFormPhotoElement = popupAddCard.querySelector(cardSelectors.formPhoto)
 const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
 popupViewCard.setEventListeners();
 
-const openPopup = (popupElement) => {
-  popupElement.classList.add(popupSelectors.popupOpenClass);
-  popupElement.dispatchEvent(new CustomEvent(customEvents.popupOpened, {}));
-}
-
-const closePopup = (popupElement) => {
-  popupElement.classList.remove(popupSelectors.popupOpenClass);
-  popupElement.dispatchEvent(new CustomEvent(customEvents.popupClosed, {}));
-}
-
-const setFormProfile = () => {
-  profileFormNameInput.value = profileInfoName.textContent;
-  profileFormOccupationInput.value = profileInfoOccupation.textContent;
-}
-
-const saveProfile = () => {
-  profileInfoName.textContent = profileFormNameInput.value;
-  profileInfoOccupation.textContent = profileFormOccupationInput.value;
-}
-
 const addCard = (cardElement, atStart = false) => {
   if (atStart) {
     cardsContainer.prepend(cardElement);
@@ -82,90 +62,6 @@ const createCardElement = (data) => {
 
 const addCards = (cards) => {
   cards.forEach( (card) => addCard( createCardElement(card) ) );
-}
-
-const saveCard = () => {
-  const card = {
-    name: cardFormNameElement.value,
-    photo: cardFormPhotoElement.value,
-    photoDesc: cardFormNameElement.value,
-    liked: false,
-  };
-  addCard( createCardElement(card), true);
-}
-
-const resetCardForm = () => {
-  cardFormNameElement.value = '';
-  cardFormPhotoElement.value = '';
-}
-
-profileInfoEditButton.addEventListener( 'click', () => {
-  setFormProfile();
-  editProfileForm.validator.validateForm();
-  openPopup(popupEditProfile);
-});
-
-cardAddButton.addEventListener('click', () => {
-  resetCardForm();
-  cardForm.validator.validateForm();
-  cardForm.validator.hideFormErrorMessages();
-  openPopup(popupAddCard);
-});
-
-const setupFormIfExists = ( popupElement, handleSubmit ) => {
-  const form = popupElement.querySelector(formSelectors.form);
-  if (form) {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      handleSubmit(popupElement);
-      closePopup(popupElement);
-    });
-  }
-}
-
-const setupCloseButton = ( popupElement ) => {
-  const closeButton = popupElement.querySelector(popupSelectors.popupCloseButton);
-  closeButton.addEventListener( 'click', () => closePopup(popupElement));
-};
-
-const closePopupOnEscapePress = (event) => {
-  if (event.key === "Escape") {
-    closePopup(closePopupOnEscapePress.popupElement);
-  }
-}
-
-const handlePopupOpenEvent = (event) => {
-  closePopupOnEscapePress.popupElement = event.target;
-  closePopupOnEscapePress.popupElement.classList.add(popupSelectors.popupOpenClass);
-  document.addEventListener( 'keyup', closePopupOnEscapePress);
-}
-
-const handlePopupCloseEvent = () => {
-  if (closePopupOnEscapePress.popupElement) {
-    closePopupOnEscapePress.popupElement.classList.remove(popupSelectors.popupOpenClass);
-    delete closePopupOnEscapePress.popupElement;
-  }
-
-  document.removeEventListener( 'keyup', closePopupOnEscapePress);
-}
-
-const setupPopupOverlay = (popupElement) => {
-  const popupContainer = popupElement.querySelector(popupSelectors.popupContainer);
-  popupContainer.addEventListener( 'mousedown', (event) => {
-    event.stopImmediatePropagation();
-  });
-
-  popupElement.addEventListener( 'mousedown', () => {
-    closePopup(popupElement);
-  });
-};
-
-const setupPopup = ( popupElement, handleSubmit ) => {
-  popupElement.addEventListener( customEvents.popupOpened, handlePopupOpenEvent);
-  popupElement.addEventListener( customEvents.popupClosed, handlePopupCloseEvent);
-  setupCloseButton( popupElement );
-  setupPopupOverlay( popupElement );
-  setupFormIfExists( popupElement, handleSubmit );
 }
 
 const initialCards = [
@@ -211,9 +107,6 @@ forms.forEach( (form) => {
   form.validator = formValidator;
 });
 
-setupPopup( popupEditProfile, saveProfile );
-setupPopup( popupAddCard, saveCard );
-
 addCards( initialCards.map( (card) => {
   return {
     name: card.name,
@@ -222,5 +115,3 @@ addCards( initialCards.map( (card) => {
     liked: false
   }
 }));
-
-export { openPopup };

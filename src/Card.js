@@ -70,7 +70,7 @@ class Card {
 
   _initTrashButton() {
     const trashButtonElement = this._element.querySelector(cardSelectors.trashButton);
-    trashButtonElement.addEventListener( 'click', () =>  this._removeCard.bind(this));
+    trashButtonElement.addEventListener( 'click', this._removeCard.bind(this));
   }
 
   _toggleLike(event) {
