@@ -90,13 +90,20 @@ const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, functio
 
 popupUserInfo.setEventListeners();
 
+const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, function handleSubmitAddCard(e) {
+  e.preventDefault();
+  popupAddCard.getValues();
+  console.log(`created card: ${JSON.stringify(popupAddCard.getValues())}`)
+});
+popupAddCard.setEventListeners();
+
 profileInfoEditButton.addEventListener('click', function openUserInfoEditForm() {
   popupUserInfo.setValues( userInfo.getUserInfo() );
   popupUserInfo.open();
 });
 
 cardAddButton.addEventListener('click', function openAddCardForm() {
-  console.log("TODO: Implement.");
+  popupAddCard.open();
 });
 
 const validationOptions = {
