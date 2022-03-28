@@ -11,7 +11,9 @@ class FormValidator {
     this._submitButton = this._formElement.querySelector(this._validationOptions.submitButtonSelector);
     this._errorMessageElements = this._findErrorMessageElements(this._formElement, this._inputList);
 
-    this._inputList.forEach( (inputElement) => inputElement.addEventListener('input', this.validateForm.bind(this)));
+    this._inputList.forEach( (inputElement) => {
+      inputElement.addEventListener('input', () => this._validateInput(inputElement));
+    });
   }
 
   hideFormErrorMessages() {
@@ -20,6 +22,11 @@ class FormValidator {
 
   validateForm() {
     this._inputList.forEach( (inputElement) => this._renderInputValidityState(inputElement) );
+    this._renderSubmitButtonValidityState();
+  }
+
+  _validateInput(inputElement) {
+    this._renderInputValidityState(inputElement);
     this._renderSubmitButtonValidityState();
   }
 
