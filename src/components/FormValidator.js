@@ -11,12 +11,7 @@ class FormValidator {
     this._submitButton = this._formElement.querySelector(this._validationOptions.submitButtonSelector);
     this._errorMessageElements = this._findErrorMessageElements(this._formElement, this._inputList);
 
-    this._inputList.forEach( (inputElement) => {
-      inputElement.addEventListener( 'input', () => {
-        this._formElement.checkValidity();
-        this.validateForm();
-      });
-    });
+    this._inputList.forEach( (inputElement) => inputElement.addEventListener('input', this.validateForm.bind(this)));
   }
 
   hideFormErrorMessages() {
