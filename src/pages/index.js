@@ -45,8 +45,7 @@ const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
 
 function openCardDetails() {
   const image = this.getImage();
-  popupViewCard.setImage(image.link, image.name);
-  popupViewCard.open();
+  popupViewCard.open( image );
 }
 
 const createCardElement = (data) => {

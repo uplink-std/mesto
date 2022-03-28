@@ -7,15 +7,10 @@ class PopupWithImage extends Popup {
     this._setContainerElements();
   }
 
-  setImage( link, name ) {
-    this._link = link;
-    this._name = name;
-  }
-
-  open() {
-    this._imageElement.src = this._link;
-    this._imageElement.alt = this._name;
-    this._nameElement.textContent = this._name;
+  open({ name, link }) {
+    this._imageElement.src = link;
+    this._imageElement.alt = name;
+    this._nameElement.textContent = name;
     super.open();
   }
 
