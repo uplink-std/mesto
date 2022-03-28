@@ -6,11 +6,6 @@ class PopupWithForm extends Popup {
     super(popupSelector);
     this._submitCallback = submitCallback.bind(this);
     this._setFormElements();
-    this.getValues.bind(this);
-    this.setValues.bind(this);
-    this.reset.bind(this);
-    this.close.bind(this);
-    this.setEventListeners.bind(this);
   }
 
   setEventListeners() {
