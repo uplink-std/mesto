@@ -45,7 +45,7 @@ const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
 
 function openCardDetails() {
   const image = this.getImage();
-  popupViewCard.setImage(image.source, image.name);
+  popupViewCard.setImage(image.link, image.name);
   popupViewCard.open();
 }
 
@@ -88,20 +88,9 @@ function renderCard(item) {
   cardsContainer.addItem(element);
 }
 
-const mapInitialCards = (initialsCards) => {
-  return initialsCards.map( card => {
-    return {
-      name: card.name,
-      photo: card.link,
-      photoDesc: card.name,
-      liked: false
-    }
-  }).reverse();
-}
-
 const cardsContainer = new Section(
   {
-    items: mapInitialCards(initialCards),
+    items: initialCards,
     renderer: renderCard
   },
   '.elements__list'
@@ -124,18 +113,9 @@ const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleS
 
 popupUserInfo.setEventListeners();
 
-const mapFormCard = (values) => {
-  return {
-    name: values.name,
-    photo: values.photo,
-    photoDesc: values.name,
-    liked: false
-  }
-}
-
 function handleSubmitAddCard(e) {
   e.preventDefault();
-  const cardData = mapFormCard(popupAddCard.getValues());
+  const cardData = popupAddCard.getValues();
   cardsContainer.addItem(createCardElement(cardData));
   popupAddCard.close();
 }
@@ -153,6 +133,7 @@ profileInfoEditButton.addEventListener('click', openUserInfoEditForm);
 
 function openAddCardForm() {
   popupAddCard.reset();
+  addCardValidator.validateForm();
   addCardValidator.hideFormErrorMessages();
   popupAddCard.open();
 }
