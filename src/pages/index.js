@@ -103,21 +103,16 @@ popupViewCard.setEventListeners();
 
 const userInfo = new UserInfo(userInfoSelectors);
 
-function handleSubmitProfile(e) {
-  e.preventDefault();
-  userInfo.setUserInfo( popupUserInfo.getValues() );
-  popupUserInfo.close();
+function handleSubmitProfile(userData) {
+  userInfo.setUserInfo( userData );
 }
 
 const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleSubmitProfile);
 
 popupUserInfo.setEventListeners();
 
-function handleSubmitAddCard(e) {
-  e.preventDefault();
-  const cardData = popupAddCard.getValues();
+function handleSubmitAddCard(cardData) {
   cardsContainer.addItem(createCardElement(cardData));
-  popupAddCard.close();
 }
 
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
