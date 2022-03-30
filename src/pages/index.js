@@ -99,7 +99,6 @@ function openUserInfoEditForm() {
 profileInfoEditButton.addEventListener('click', openUserInfoEditForm);
 
 function openAddCardForm() {
-  popupAddCard.reset();
   cardFormValidator.validateForm();
   cardFormValidator.hideFormErrorMessages();
   popupAddCard.open();
