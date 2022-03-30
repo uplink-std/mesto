@@ -5,3 +5,8 @@
   border: 1px solid #000000;
   box-sizing: border-box;
 }
+
+.form__save-btn_disabled:hover {
+  opacity: .2;
+  cursor: default;
+}
