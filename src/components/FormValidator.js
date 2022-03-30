@@ -12,10 +12,7 @@ class FormValidator {
     this._errorMessageElements = this._findErrorMessageElements(this._formElement, this._inputList);
 
     this._inputList.forEach( (inputElement) => {
-      inputElement.addEventListener( 'input', () => {
-        this._formElement.checkValidity();
-        this.validateForm();
-      });
+      inputElement.addEventListener('input', () => this._validateInput(inputElement));
     });
   }
 
@@ -25,6 +22,11 @@ class FormValidator {
 
   validateForm() {
     this._inputList.forEach( (inputElement) => this._renderInputValidityState(inputElement) );
+    this._renderSubmitButtonValidityState();
+  }
+
+  _validateInput(inputElement) {
+    this._renderInputValidityState(inputElement);
     this._renderSubmitButtonValidityState();
   }
 

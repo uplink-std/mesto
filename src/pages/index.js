@@ -1,59 +1,32 @@
 import './index.css';
-import { Card, cardSelectors } from "../components/Card.js";
+import { popupSelectors, userInfoSelectors, validationOptions } from "../util/constants.js"
+import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import {PopupWithImage} from "../components/PopupWithImage";
 import {PopupWithForm} from "../components/PopupWithForm";
 import {UserInfo} from "../components/UserInfo";
 import {Section} from "../components/Section";
 
-const popupSelectors = {
-  popupCloseButton: '.popup__close-btn',
-  popupOpenClass: 'popup_opened',
-  popupEditProfile: '.popup_edit-profile',
-  popupAddCard: '.popup_add-card',
-  popupViewCard: '.popup_view-card',
-  popupContainer: '.popup__container',
-}
 
-const userInfoSelectors = {
-  nameSelector: '.profile__info-name',
-  occupationSelector: '.profile__info-occupation',
-  editButton: '.profile__edit-btn',
-  addCardButton: '.profile__add-btn',
-};
-
-const validationOptions = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__save-btn',
-  inactiveButtonClass: 'form__save-btn_disabled',
-  inputErrorClass: 'form__input-error',
-  errorClass: 'form__input-error-msg_active'
-}
-
-const createFormValidator = (name) => {
+function createFormValidator(name) {
   const validator = new FormValidator(validationOptions, document.forms[name]);
   validator.enableValidation();
   return validator;
 }
 
 const userInfoValidator = createFormValidator('profile');
-const addCardValidator = createFormValidator('card');
+const cardFormValidator = createFormValidator('card');
 
 const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
 const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
 
-function openCardDetails() {
-  const image = this.getImage();
-  popupViewCard.setImage(image.source, image.name);
-  popupViewCard.open();
+function openCardDetails( image ) {
+  popupViewCard.open( image );
 }
 
-const createCardElement = (data) => {
-  const card = new Card(data, cardSelectors.template, openCardDetails);
-  const element = card.generateDomElement();
-  element.card = card;
-  return element;
+function createCardElement(data) {
+  const card = new Card(data, '#element-template', openCardDetails);
+  return card.generateDomElement();
 }
 
 const initialCards = [
@@ -88,23 +61,12 @@ function renderCard(item) {
   cardsContainer.addItem(element);
 }
 
-const mapInitialCards = (initialsCards) => {
-  return initialsCards.map( card => {
-    return {
-      name: card.name,
-      photo: card.link,
-      photoDesc: card.name,
-      liked: false
-    }
-  }).reverse();
-}
-
 const cardsContainer = new Section(
   {
-    items: mapInitialCards(initialCards),
+    items: initialCards,
     renderer: renderCard
   },
-  cardSelectors.cardsContainer
+  '.elements__list'
 );
 
 cardsContainer.renderItems();
@@ -114,30 +76,15 @@ popupViewCard.setEventListeners();
 
 const userInfo = new UserInfo(userInfoSelectors);
 
-function handleSubmitProfile(e) {
-  e.preventDefault();
-  userInfo.setUserInfo( popupUserInfo.getValues() );
-  popupUserInfo.close();
+function handleSubmitProfile(userData) {
+  userInfo.setUserInfo( userData );
 }
 
 const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleSubmitProfile);
-
 popupUserInfo.setEventListeners();
 
-const mapFormCard = (values) => {
-  return {
-    name: values.name,
-    photo: values.photo,
-    photoDesc: values.name,
-    liked: false
-  }
-}
-
-function handleSubmitAddCard(e) {
-  e.preventDefault();
-  const cardData = mapFormCard(popupAddCard.getValues());
+function handleSubmitAddCard(cardData) {
   cardsContainer.addItem(createCardElement(cardData));
-  popupAddCard.close();
 }
 
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
@@ -152,8 +99,8 @@ function openUserInfoEditForm() {
 profileInfoEditButton.addEventListener('click', openUserInfoEditForm);
 
 function openAddCardForm() {
-  popupAddCard.reset();
-  addCardValidator.hideFormErrorMessages();
+  cardFormValidator.validateForm();
+  cardFormValidator.hideFormErrorMessages();
   popupAddCard.open();
 }
 

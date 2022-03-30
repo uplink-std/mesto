@@ -6,16 +6,15 @@ class PopupWithForm extends Popup {
     super(popupSelector);
     this._submitCallback = submitCallback.bind(this);
     this._setFormElements();
-    this.getValues.bind(this);
-    this.setValues.bind(this);
-    this.reset.bind(this);
-    this.close.bind(this);
-    this.setEventListeners.bind(this);
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener('submit', this._submitCallback);
+    this._formElement.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this._submitCallback(this._getInputValues());
+      this.close();
+    });
   }
 
   close() {
@@ -29,10 +28,6 @@ class PopupWithForm extends Popup {
 
   setValues(data) {
     this._inputList.forEach( (inputElement) => { inputElement.value = data[inputElement.name]; } )
-  }
-
-  getValues() {
-    return { ...this._getInputValues() };
   }
 
   _getInputValues() {
