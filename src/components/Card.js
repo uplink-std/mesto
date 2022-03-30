@@ -29,7 +29,9 @@ class Card {
     const photoElement = this._element.querySelector('.element__photo');
     photoElement.src = this._link;
     photoElement.alt = this._name;
-    photoElement.addEventListener( 'click', this._handleCardClick.bind(this));
+    photoElement.addEventListener( 'click', (e) => {
+      this._handleCardClick({ name: this._name, link: this._link });
+    });
   }
 
   _initCardName() {

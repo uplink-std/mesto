@@ -20,8 +20,7 @@ const cardFormValidator = createFormValidator('card');
 const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
 const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
 
-function openCardDetails() {
-  const image = this.getImage();
+function openCardDetails( image ) {
   popupViewCard.open( image );
 }
 
