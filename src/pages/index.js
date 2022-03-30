@@ -8,14 +8,14 @@ import {UserInfo} from "../components/UserInfo";
 import {Section} from "../components/Section";
 
 
-const createFormValidator = (name) => {
+function createFormValidator(name) {
   const validator = new FormValidator(validationOptions, document.forms[name]);
   validator.enableValidation();
   return validator;
 }
 
 const userInfoValidator = createFormValidator('profile');
-const addCardValidator = createFormValidator('card');
+const cardFormValidator = createFormValidator('card');
 
 const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
 const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
@@ -25,7 +25,7 @@ function openCardDetails() {
   popupViewCard.open( image );
 }
 
-const createCardElement = (data) => {
+function createCardElement(data) {
   const card = new Card(data, '#element-template', openCardDetails);
   const element = card.generateDomElement();
   element.card = card;
@@ -84,7 +84,6 @@ function handleSubmitProfile(userData) {
 }
 
 const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleSubmitProfile);
-
 popupUserInfo.setEventListeners();
 
 function handleSubmitAddCard(cardData) {
@@ -104,8 +103,8 @@ profileInfoEditButton.addEventListener('click', openUserInfoEditForm);
 
 function openAddCardForm() {
   popupAddCard.reset();
-  addCardValidator.validateForm();
-  addCardValidator.hideFormErrorMessages();
+  cardFormValidator.validateForm();
+  cardFormValidator.hideFormErrorMessages();
   popupAddCard.open();
 }
 
