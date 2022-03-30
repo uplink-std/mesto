@@ -26,9 +26,7 @@ function openCardDetails( image ) {
 
 function createCardElement(data) {
   const card = new Card(data, '#element-template', openCardDetails);
-  const element = card.generateDomElement();
-  element.card = card;
-  return element;
+  return card.generateDomElement();
 }
 
 const initialCards = [
