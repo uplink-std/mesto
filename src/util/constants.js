@@ -21,6 +21,11 @@ const validationOptions = {
     inactiveButtonClass: 'form__save-btn_disabled',
     inputErrorClass: 'form__input-error',
     errorClass: 'form__input-error-msg_active'
-}
+};
 
-export { popupSelectors, userInfoSelectors, validationOptions };
+const apiConfig = {
+    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-39",
+    token: "9198c67a-8234-4586-80bf-edb62ce0913e"
+};
+
+export { popupSelectors, userInfoSelectors, validationOptions, apiConfig };
