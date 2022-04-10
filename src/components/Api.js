@@ -25,7 +25,7 @@ class Api {
      * PATCH https://mesto.nomoreparties.co/v1/{cohortId}/users/me
      */
     updateUserInfo({ name, about }) {
-        return this._restClient.update("users/me", { name, about });
+        return this._restClient.updatePartially("users/me", { name, about });
     }
 
     /**
@@ -33,7 +33,7 @@ class Api {
      * POST https://mesto.nomoreparties.co/v1/{cohortId}/cards
      */
     createCard({ name, link }) {
-        return Promise.reject("ERROR: Not implemented!");
+        return this._restClient.create("cards", { name, link });
     }
 
     /**

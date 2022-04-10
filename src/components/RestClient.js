@@ -10,15 +10,19 @@ class RestClient {
     }
 
     create(resource, data) {
-        return this._callApi('PUT', resource, data);
+        return this._callApi('POST', resource, data);
     }
 
     read(resource) {
         return this._callApi('GET', resource);
     }
 
-    update(resource, data) {
+    updatePartially(resource, data) {
         return this._callApi('PATCH', resource, data);
+    }
+
+    update(resource, data) {
+        return this._callApi('PUT', resource, data);
     }
 
     delete(resource) {

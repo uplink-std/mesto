@@ -59,7 +59,11 @@ const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleS
 popupUserInfo.setEventListeners();
 
 function handleSubmitAddCard(cardData) {
-  cardsContainer.addItem(createCardElement(cardData));
+    api.createCard(cardData)
+        .then( card => {
+            cardsContainer.addItem(createCardElement(card));
+        })
+        .catch( error => console.log(error));
 }
 
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
@@ -89,6 +93,6 @@ Promise.all([
     api.getCards()
 ]).then( ([user, cards]) => {
     userInfo.setUserInfo({ ...user, occupation: user.about });
-    cards.forEach(card => renderCard(card));
+    cards.reverse().forEach(card => renderCard(card));
 }).catch(error => console.log(error));
 
