@@ -50,7 +50,9 @@ popupViewCard.setEventListeners();
 const userInfo = new UserInfo(userInfoSelectors);
 
 function handleSubmitProfile(userData) {
-  userInfo.setUserInfo( userData );
+    api.updateUserInfo({ name: userData.name, about: userData.occupation })
+        .then( user => userInfo.setUserInfo({ name: user.name, occupation: user.about }))
+        .catch( error => console.log(error));
 }
 
 const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleSubmitProfile);
@@ -86,7 +88,7 @@ Promise.all([
     api.getUserInfo(),
     api.getCards()
 ]).then( ([user, cards]) => {
-    userInfo.setUserInfo({ _id: user._id, name: user.name, occupation: user.about, avatar: user.avatar });
+    userInfo.setUserInfo({ ...user, occupation: user.about });
     cards.forEach(card => renderCard(card));
 }).catch(error => console.log(error));
 

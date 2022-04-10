@@ -1,3 +1,5 @@
+import { isDefined } from "./../util/predicates.js"
+
 class UserInfo {
 
   constructor({ nameSelector, occupationSelector, avatarSelector }) {
@@ -5,7 +7,6 @@ class UserInfo {
     this._occupationElement = document.querySelector(occupationSelector);
     this._avatarElement = document.querySelector(avatarSelector);
     this._id = null;
-    this._avatar =  null;
   }
 
   getUserInfo() {
@@ -18,11 +19,19 @@ class UserInfo {
   }
 
   setUserInfo({ _id, name, occupation, avatar }) {
-    this._id = _id;
-    this._nameElement.textContent = name;
-    this._occupationElement.textContent = occupation;
-    this._avatarElement.src = avatar;
-    this._avatarElement.alt = name;
+    if ( isDefined(_id) ) {
+      this._id = _id;
+    }
+    if ( isDefined(name) ) {
+      this._nameElement.textContent = name;
+    }
+    if ( isDefined(occupation) ) {
+      this._occupationElement.textContent = occupation;
+    }
+    if ( isDefined(avatar) ) {
+      this._avatarElement.src = avatar;
+      this._avatarElement.alt = name;
+    }
   }
 }
 

@@ -25,7 +25,7 @@ class Api {
      * PATCH https://mesto.nomoreparties.co/v1/{cohortId}/users/me
      */
     updateUserInfo({ name, about }) {
-        return Promise.reject("ERROR: Not implemented!");
+        return this._restClient.update("users/me", { name, about });
     }
 
     /**
