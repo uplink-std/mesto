@@ -1,3 +1,5 @@
+import { isDefined } from "../util/predicates";
+
 class RestClient {
     constructor({baseUrl, token}) {
         this._baseUrl = baseUrl;
@@ -26,7 +28,7 @@ class RestClient {
     _callApi(method, resource, data) {
         const request = { method: method, headers: this._headers }
 
-        if (typeof data !== 'undefined') {
+        if (isDefined(data)) {
             request.body = JSON.stringify(data);
         }
 
