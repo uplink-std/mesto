@@ -86,7 +86,7 @@ Promise.all([
     api.getUserInfo(),
     api.getCards()
 ]).then( ([user, cards]) => {
-    userInfo.setUserInfo({ name: user.name, occupation: user.about });
+    userInfo.setUserInfo({ id: user._id, name: user.name, occupation: user.about, avatar: user.avatar });
     cards.forEach(card => renderCard(card));
 }).catch(error => console.log(error));
 

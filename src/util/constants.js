@@ -10,6 +10,7 @@ const popupSelectors = {
 const userInfoSelectors = {
     nameSelector: '.profile__info-name',
     occupationSelector: '.profile__info-occupation',
+    avatarSelector: '.profile__avatar',
     editButton: '.profile__edit-btn',
     addCardButton: '.profile__add-btn',
 };
