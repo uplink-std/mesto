@@ -9,10 +9,6 @@ import {Section} from "../components/Section.js";
 import { RestClient } from "../components/RestClient.js";
 import { Api } from "../components/Api.js";
 
-const restClient = new RestClient(apiConfig);
-
-const api = new Api({ restClient });
-
 function createFormValidator(name) {
   const validator = new FormValidator(validationOptions, document.forms[name]);
   validator.enableValidation();
@@ -48,21 +44,10 @@ const cardsContainer = new Section(
 );
 cardsContainer.renderItems();
 
-api.getCards()
-    .then(cards => cards.forEach(card => renderCard(card)))
-    .catch(error => console.log(error));
-
 const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
 popupViewCard.setEventListeners();
 
 const userInfo = new UserInfo(userInfoSelectors);
-
-api.getUserInfo()
-    .then( userData => userInfo.setUserInfo({
-      name: userData.name,
-      occupation: userData.about
-    }))
-    .catch( error => console.log(error));
 
 function handleSubmitProfile(userData) {
   userInfo.setUserInfo( userData );
@@ -93,3 +78,15 @@ function openAddCardForm() {
 }
 
 cardAddButton.addEventListener('click', openAddCardForm);
+
+const restClient = new RestClient(apiConfig);
+const api = new Api(restClient);
+
+Promise.all([
+    api.getUserInfo(),
+    api.getCards()
+]).then( ([user, cards]) => {
+    userInfo.setUserInfo({ name: user.name, occupation: user.about });
+    cards.forEach(card => renderCard(card));
+}).catch(error => console.log(error));
+

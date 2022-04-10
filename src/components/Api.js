@@ -1,6 +1,6 @@
 class Api {
 
-    constructor({ restClient }) {
+    constructor(restClient) {
         this._restClient = restClient;
     }
 
