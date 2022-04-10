@@ -1,9 +1,12 @@
+import { hasItems } from "../util/predicates.js";
+
 class Card {
 
   constructor(card, templateSelector, handleCardClick) {
     this._id = card._id;
     this._name = card.name;
     this._link = card.link;
+    this._likes = card.likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     return this;
@@ -14,7 +17,7 @@ class Card {
     this._element = cardElementTemplate.querySelector('.element').cloneNode(true);
     this._initCardPhoto();
     this._initCardName();
-    this._initCardLikeButton();
+    this._initCardLikes();
     this._initTrashButton();
     return this._element;
   }
@@ -33,7 +36,11 @@ class Card {
     nameElement.textContent = this._name;
   }
 
-  _initCardLikeButton() {
+  _initCardLikes() {
+    if ( hasItems(this._likes) ) {
+      const likeCounterElement = this._element.querySelector('.element__like-counter');
+      likeCounterElement.textContent = this._likes.length;
+    }
     const likeButtonElement = this._element.querySelector('.element__like-btn');
     likeButtonElement.addEventListener( 'click', this._toggleLike.bind(this) );
   }

@@ -6,4 +6,8 @@ function isDefined(variable) {
     return !isUndefined(variable);
 }
 
-export { isUndefined, isDefined };
+function hasItems(array) {
+    return isDefined(array) && array.length > 0;
+}
+
+export { isUndefined, isDefined, hasItems };
