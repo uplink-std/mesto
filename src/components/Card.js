@@ -1,6 +1,7 @@
 class Card {
 
   constructor(card, templateSelector, handleCardClick) {
+    this._id = card._id;
     this._name = card.name;
     this._link = card.link;
     this._templateSelector = templateSelector;
@@ -16,13 +17,6 @@ class Card {
     this._initCardLikeButton();
     this._initTrashButton();
     return this._element;
-  }
-
-  getImage() {
-    return {
-      name: this._name,
-      link: this._link
-    }
   }
 
   _initCardPhoto() {
