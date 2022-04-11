@@ -39,7 +39,7 @@ function deleteCard(cardId, cardElement) {
 }
 
 function createCardElement(data) {
-  const card = new Card(data, '#element-template', openCardDetails, deleteCard);
+  const card = new Card(userId, data, '#element-template', openCardDetails, deleteCard);
   return card.generateDomElement();
 }
 
@@ -101,10 +101,13 @@ cardAddButton.addEventListener('click', openAddCardForm);
 const restClient = new RestClient(apiConfig);
 const api = new Api(restClient);
 
+let userId = null;
+
 Promise.all([
     api.getUserInfo(),
     api.getCards()
 ]).then( ([user, cards]) => {
+    userId = user._id;
     userInfo.setUserInfo({ ...user, occupation: user.about });
     cards.reverse().forEach(card => renderCard(card));
 }).catch(error => console.log(error));
