@@ -61,7 +61,7 @@ class Api {
      * PATCH https://mesto.nomoreparties.co/v1/cohortId/users/me/avatar
      */
     updateUserAvatar(avatarUrl) {
-        return Promise.reject("ERROR: Not implemented!");
+        return this._restClient.updatePartially(`users/me/avatar`, { avatar: avatarUrl });
     }
 }
 
