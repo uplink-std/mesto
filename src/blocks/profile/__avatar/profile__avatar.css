@@ -1,10 +1,19 @@
 .profile__avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 120px;
   height: 120px;
-  margin: 0 30px 26px 0;
   object-fit: cover;
   border-radius: 50%;
   background-clip: border-box;
+  z-index: 20;
+  transition: opacity ease .2s;
+}
+
+.profile__avatar:hover {
+  background-color: #000;
+  opacity: .2;
 }
 
 @media all and (max-width: 620px) {
@@ -12,3 +21,4 @@
     margin: 0 0 26px 0;
   }
 }
+
