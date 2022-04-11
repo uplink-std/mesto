@@ -5,7 +5,8 @@ const popupSelectors = {
     popupAddCard: '.popup_add-card',
     popupViewCard: '.popup_view-card',
     popupContainer: '.popup__container',
-    popupEditAvatar: '.popup_edit-avatar'
+    popupEditAvatar: '.popup_edit-avatar',
+    popupDeleteCard: '.popup_delete-form'
 
 }
 

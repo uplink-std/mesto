@@ -28,6 +28,7 @@ function openCardDetails( image ) {
 
 function deleteCard(cardId, cardElement) {
   // open confirm popup
+  popupDeleteCard.open();
   api.deleteCard(cardId)
     .then( (result) => {
       console.log(result.message);
@@ -36,6 +37,7 @@ function deleteCard(cardId, cardElement) {
     .catch(error => console.log(error))
     .finally( () => {
       // close confirm popup
+      popupDeleteCard.close();
     });
 }
 
@@ -99,6 +101,9 @@ function handleSubmitAddCard(cardData) {
 
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
 popupAddCard.setEventListeners();
+
+const popupDeleteCard = new PopupWithForm(popupSelectors.popupDeleteCard, (cardId) => console.log(`Deleting card ${cardId}`));
+popupDeleteCard.setEventListeners();
 
 function openUserInfoEditForm() {
   popupUserInfo.setValues( userInfo.getUserInfo() );
