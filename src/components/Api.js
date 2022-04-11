@@ -49,8 +49,11 @@ class Api {
      * PUT https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
      * DELETE https://mesto.nomoreparties.co/v1/cohortId/cards/cardId/likes
      */
-    setLike(isLiked) {
-        return Promise.reject("ERROR: Not implemented!");
+    setLike(isLiked, cardId) {
+        if (isLiked) {
+            return this._restClient.update(`cards/${cardId}/likes`);
+        }
+        return this._restClient.delete(`cards/${cardId}/likes`);
     }
 
     /**

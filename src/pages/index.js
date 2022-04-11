@@ -38,8 +38,16 @@ function deleteCard(cardId, cardElement) {
     });
 }
 
+function likeCard(hasUserLike, cardId, card) {
+  api.setLike( !hasUserLike, cardId )
+    .then( result => {
+      card.updateLikes(result.likes);
+    })
+    .catch(error => console.log(error));
+}
+
 function createCardElement(data) {
-    const card = new Card(userInfo.getUserInfo().id, data, '#element-template', openCardDetails, deleteCard);
+    const card = new Card(userInfo.getUserInfo().id, data, '#element-template', openCardDetails, deleteCard, likeCard);
     return card.generateDomElement();
 }
 
