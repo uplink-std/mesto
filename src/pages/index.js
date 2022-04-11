@@ -39,23 +39,14 @@ function deleteCard(cardId, cardElement) {
 }
 
 function createCardElement(data) {
-  const card = new Card(userId, data, '#element-template', openCardDetails, deleteCard);
-  return card.generateDomElement();
-}
-
-function renderCard(item) {
-  const element = createCardElement(item);
-  cardsContainer.addItem(element);
+    const card = new Card(userInfo.getUserInfo().id, data, '#element-template', openCardDetails, deleteCard);
+    return card.generateDomElement();
 }
 
 const cardsContainer = new Section(
-  {
-    items: [],
-    renderer: renderCard
-  },
+  { renderer: createCardElement },
   '.elements__list'
 );
-cardsContainer.renderItems();
 
 const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
 popupViewCard.setEventListeners();
@@ -74,7 +65,7 @@ popupUserInfo.setEventListeners();
 function handleSubmitAddCard(cardData) {
     api.createCard(cardData)
         .then( card => {
-            cardsContainer.addItem(createCardElement(card));
+          cardsContainer.addItem( createCardElement(card) )
         })
         .catch( error => console.log(error));
 }
@@ -101,14 +92,11 @@ cardAddButton.addEventListener('click', openAddCardForm);
 const restClient = new RestClient(apiConfig);
 const api = new Api(restClient);
 
-let userId = null;
-
 Promise.all([
     api.getUserInfo(),
     api.getCards()
 ]).then( ([user, cards]) => {
-    userId = user._id;
     userInfo.setUserInfo({ ...user, occupation: user.about });
-    cards.reverse().forEach(card => renderCard(card));
+    cardsContainer.renderItems(cards.reverse());
 }).catch(error => console.log(error));
 
