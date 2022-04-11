@@ -45,7 +45,7 @@ class RestClient {
         if (response.ok) {
             return response.json();
         }
-        return Promise.reject(`ERROR: ${response.statusText}`)
+        return Promise.reject(`ERROR: code=${response.status} msg=${response.statusText}`);
     }
 
     _rejectWithError(error) {

@@ -2,11 +2,13 @@ import { isDefined } from "./../util/predicates.js"
 
 class UserInfo {
 
-  constructor({ nameSelector, occupationSelector, avatarSelector }) {
+  constructor({ nameSelector, occupationSelector, avatarSelector }, handleAvatarClick) {
     this._nameElement = document.querySelector(nameSelector);
     this._occupationElement = document.querySelector(occupationSelector);
     this._avatarElement = document.querySelector(avatarSelector);
     this._id = null;
+    this._handleAvatarClick = handleAvatarClick;
+    this._avatarElement.addEventListener('click', (e) => this._handleAvatarClick(this._avatarElement.src));
   }
 
   getUserInfo() {

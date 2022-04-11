@@ -88,6 +88,23 @@
       </div>
     </div>
 
+    <div class="popup popup_edit-avatar">
+      <div class="popup__container">
+        <form id="avatar-form" class="avatar-form form" name="avatar" novalidate>
+          <button class="popup__close-btn" type="button"></button>
+          <h2 class="form__title">Обновить&nbsp;аватар</h2>
+          <fieldset class="form__fieldset">
+            <input id="avatar-form__photo" class="avatar-form__photo form__input" placeholder="Ссылка на аватар" name="avatar" value=""
+                   required type="url" pattern="(http|https|ftp|ftps|sftp|file)+://.+">
+            <span class="avatar-form__photo-error form__input-error-msg"></span>
+          </fieldset>
+          <button class="form__save-btn" type="submit">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+
     <template id="element-template">
       <li class="element">
         <img class="element__photo" src="#" alt="фотография">

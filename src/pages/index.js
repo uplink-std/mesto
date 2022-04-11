@@ -17,6 +17,7 @@ function createFormValidator(name) {
 
 const userInfoValidator = createFormValidator('profile');
 const cardFormValidator = createFormValidator('card');
+const avatarFormValidator = createFormValidator('avatar');
 
 const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
 const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
@@ -59,7 +60,25 @@ const cardsContainer = new Section(
 const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
 popupViewCard.setEventListeners();
 
-const userInfo = new UserInfo(userInfoSelectors);
+function handleSubmitAvatar(formData) {
+  api.updateUserAvatar(formData.avatar)
+    .then(userData => {
+      userInfo.setUserInfo(userData);
+    })
+    .catch(error => console.log(error))
+    .finally(() => popupAvatarForm.close());
+}
+
+const popupAvatarForm = new PopupWithForm(popupSelectors.popupEditAvatar, handleSubmitAvatar);
+popupAvatarForm.setEventListeners();
+
+function openAvatarEdit(avatarUrl) {
+  popupAvatarForm.setValues({ avatar: avatarUrl });
+  avatarFormValidator.validateForm();
+  popupAvatarForm.open();
+}
+
+const userInfo = new UserInfo(userInfoSelectors, openAvatarEdit);
 
 function handleSubmitProfile(userData) {
     api.updateUserInfo({ name: userData.name, about: userData.occupation })
