@@ -25,8 +25,21 @@ function openCardDetails( image ) {
   popupViewCard.open( image );
 }
 
+function deleteCard(cardId, cardElement) {
+  // open confirm popup
+  api.deleteCard(cardId)
+    .then( (result) => {
+      console.log(result.message);
+      cardElement.remove();
+    })
+    .catch(error => console.log(error))
+    .finally( () => {
+      // close confirm popup
+    });
+}
+
 function createCardElement(data) {
-  const card = new Card(data, '#element-template', openCardDetails);
+  const card = new Card(data, '#element-template', openCardDetails, deleteCard);
   return card.generateDomElement();
 }
 

@@ -2,13 +2,14 @@ import { hasItems } from "../util/predicates.js";
 
 class Card {
 
-  constructor(card, templateSelector, handleCardClick) {
+  constructor(card, templateSelector, handleCardClick, handleDeleteClick) {
     this._id = card._id;
     this._name = card.name;
     this._link = card.link;
     this._likes = card.likes;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteClick = handleDeleteClick;
     return this;
   }
 
@@ -47,17 +48,13 @@ class Card {
 
   _initTrashButton() {
     const trashButtonElement = this._element.querySelector('.element__trash-btn');
-    trashButtonElement.addEventListener( 'click', this._removeCard.bind(this));
+    trashButtonElement.addEventListener( 'click', (e) => { this._handleDeleteClick(this._id, this._element) });
   }
 
   _toggleLike(event) {
     event.target.classList.toggle('element__like-btn_active');
   }
 
-  _removeCard() {
-    this._element.remove();
-    this._element = null;
-  }
 }
 
 export { Card };
