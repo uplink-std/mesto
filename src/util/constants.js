@@ -5,11 +5,15 @@ const popupSelectors = {
     popupAddCard: '.popup_add-card',
     popupViewCard: '.popup_view-card',
     popupContainer: '.popup__container',
+    popupEditAvatar: '.popup_edit-avatar',
+    popupDeleteCard: '.popup_delete-form'
+
 }
 
 const userInfoSelectors = {
     nameSelector: '.profile__info-name',
     occupationSelector: '.profile__info-occupation',
+    avatarSelector: '.profile__avatar',
     editButton: '.profile__edit-btn',
     addCardButton: '.profile__add-btn',
 };
@@ -21,6 +25,11 @@ const validationOptions = {
     inactiveButtonClass: 'form__save-btn_disabled',
     inputErrorClass: 'form__input-error',
     errorClass: 'form__input-error-msg_active'
-}
+};
 
-export { popupSelectors, userInfoSelectors, validationOptions };
+const apiConfig = {
+    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-39",
+    token: "9198c67a-8234-4586-80bf-edb62ce0913e"
+};
+
+export { popupSelectors, userInfoSelectors, validationOptions, apiConfig };

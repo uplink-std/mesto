@@ -1,15 +1,14 @@
 class Section {
 
-  constructor({ items, renderer }, containerSelector) {
-    this._items = items;
+  constructor({ renderer }, containerSelector) {
     this._renderer = renderer.bind(this);
     this._containerSelector = containerSelector;
     this._setElements();
   }
 
-  renderItems() {
+  renderItems(items) {
     this._container.innerHTML = '';
-    this._items.forEach( (item) => this._renderer(item) );
+    items.forEach( item => this.addItem(this._renderer(item)) );
   }
 
   addItem(domElement) {

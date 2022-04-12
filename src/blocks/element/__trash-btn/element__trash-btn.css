@@ -11,6 +11,7 @@
   min-width: 18px;
   min-height: 19px;
   background-color: transparent;
+  visibility: hidden;
 }
 
 .element__trash-btn:hover {
