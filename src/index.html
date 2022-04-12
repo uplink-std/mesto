@@ -20,8 +20,8 @@
             <img class="profile__avatar" src="<%=require('./images/student.jpg')%>" alt="фотография отсутствует">
           </span>
           <div class="profile__info">
-            <h1 class="profile__info-name abridgment">Жак-Ив Кусто</h1>
-            <p class="profile__info-occupation abridgment">Исследователь океана</p>
+            <h1 class="profile__info-name abridgment">Загрузка...</h1>
+            <p class="profile__info-occupation abridgment">Загрузка...</p>
             <button class="profile__edit-btn" type="button"></button>
           </div>
           <button class="profile__add-btn" type="button"></button>
@@ -107,13 +107,10 @@
 
     <div class="popup popup_delete-form">
       <div class="popup__container">
-        <form id="delete-form" class="delete-form form" name="delete" novalidate>
+        <div class="form">
           <button class="popup__close-btn" type="button"></button>
           <h2 class="form__title">Вы&nbsp;уверены?</h2>
-          <fieldset class="form__fieldset">
-            <input id="delete-form__name" class="delete-form__name form__input" type="hidden" name="cardId" value="">
-          </fieldset>
-          <button class="form__save-btn" type="submit">Да</button>
+          <button class="form__save-btn" type="button">Да</button>
         </form>
       </div>
     </div>

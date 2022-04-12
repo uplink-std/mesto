@@ -9,6 +9,7 @@ import {Section} from "../components/Section.js";
 import {RestClient} from "../components/RestClient.js";
 import {Api} from "../components/Api.js";
 import {isDefined} from "../util/predicates";
+import {PopupWithConfirmDialog} from "../components/PopupWithConfirmDialog";
 
 function createFormValidator(name) {
   const validator = new FormValidator(validationOptions, document.forms[name]);
@@ -27,33 +28,18 @@ function openCardDetails(image) {
   popupViewCard.open(image);
 }
 
-function deleteCard(cardId) {
-  popupDeleteCard.setValues({cardId: cardId});
-  popupDeleteCard.open();
+function openDeleteCardDialog(cardComponent) {
+  popupDeleteCard.open(cardComponent);
 }
 
-function generateCardElementSelectorClass(cardId) {
-  return `element_card-id_${cardId}`;
-}
-
-function handleSubmitDeleteCard(formData) {
-  const cardId = formData.cardId;
+function deleteCard(cardComponent) {
+  const cardId = cardComponent.getCardId();
   api.deleteCard(cardId)
-    .then((result) => {
-      console.log(JSON.stringify(result));
-      const cardSelector = `.${generateCardElementSelectorClass(cardId)}`;
-      const cardElement = document.querySelector(cardSelector);
-      if (isDefined(cardElement)) {
-        cardElement.remove();
-      } else {
-        console.log(`ERROR: card with selector "${cardSelector}" not found!`);
-      }
-    })
-    .catch(error => console.log(error))
-    .finally(() => {
-      // close confirm popup
+    .then(() => {
+      cardComponent.remove();
       popupDeleteCard.close();
-    });
+    })
+    .catch(error => console.log(error));
 }
 
 function likeCard(hasUserLike, cardId, card) {
@@ -65,7 +51,7 @@ function likeCard(hasUserLike, cardId, card) {
 }
 
 function createCardElement(data) {
-  const card = new Card(userInfo.getUserInfo().id, data, generateCardElementSelectorClass(data._id), '#element-template', openCardDetails, deleteCard, likeCard);
+  const card = new Card(userInfo.getUserInfo().id, data, '#element-template', openCardDetails, openDeleteCardDialog, likeCard);
   return card.generateDomElement();
 }
 
@@ -83,11 +69,11 @@ function handleSubmitAvatar(formData) {
   api.updateUserAvatar(formData.avatar)
     .then(userData => {
       userInfo.setUserInfo(userData);
+      popupAvatarForm.close();
     })
     .catch(error => console.log(error))
     .finally(() => {
       popupAvatarForm.setSubmitText(submitText);
-      popupAvatarForm.close();
     });
 }
 
@@ -106,11 +92,13 @@ function handleSubmitProfile(userData) {
   const submitText = "Сохранить";
   popupUserInfo.setSubmitText(`${submitText}...`);
   api.updateUserInfo({name: userData.name, about: userData.occupation})
-    .then(user => userInfo.setUserInfo({name: user.name, occupation: user.about}))
+    .then(user => {
+      userInfo.setUserInfo({name: user.name, occupation: user.about});
+      popupUserInfo.close();
+    })
     .catch(error => console.log(error))
     .finally(() => {
       popupUserInfo.setSubmitText(submitText);
-      popupUserInfo.close();
     })
 }
 
@@ -121,18 +109,20 @@ function handleSubmitAddCard(cardData) {
   const submitText = "Создать";
   popupAddCard.setSubmitText(`${submitText}...`);
   api.createCard(cardData)
-    .then(card => cardsContainer.addItem(createCardElement(card)))
+    .then(card => {
+      cardsContainer.addItem(createCardElement(card));
+      popupAddCard.close();
+    })
     .catch(error => console.log(error))
     .finally(() => {
       popupAddCard.setSubmitText(submitText);
-      popupAddCard.close();
     });
 }
 
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
 popupAddCard.setEventListeners();
 
-const popupDeleteCard = new PopupWithForm(popupSelectors.popupDeleteCard, handleSubmitDeleteCard);
+const popupDeleteCard = new PopupWithConfirmDialog(popupSelectors.popupDeleteCard, deleteCard);
 popupDeleteCard.setEventListeners();
 
 function openUserInfoEditForm() {
