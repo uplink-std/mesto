@@ -81,8 +81,9 @@ const popupAvatarForm = new PopupWithForm(popupSelectors.popupEditAvatar, handle
 popupAvatarForm.setEventListeners();
 
 function openAvatarEdit(avatarUrl) {
-  popupAvatarForm.setValues({avatar: avatarUrl});
+  popupAvatarForm.setValues({avatar: ''});
   avatarFormValidator.validateForm();
+  avatarFormValidator.hideFormErrorMessages();
   popupAvatarForm.open();
 }
 
