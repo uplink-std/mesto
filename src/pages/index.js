@@ -80,7 +80,7 @@ function handleSubmitAvatar(formData) {
 const popupAvatarForm = new PopupWithForm(popupSelectors.popupEditAvatar, handleSubmitAvatar);
 popupAvatarForm.setEventListeners();
 
-function openAvatarEdit(avatarUrl) {
+function openAvatarEdit() {
   popupAvatarForm.setValues({avatar: ''});
   avatarFormValidator.validateForm();
   avatarFormValidator.hideFormErrorMessages();
