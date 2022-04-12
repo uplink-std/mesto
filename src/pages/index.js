@@ -9,11 +9,7 @@ import {Section} from "../components/Section.js";
 import {Api} from "../components/Api.js";
 import {PopupWithConfirmDialog} from "../components/PopupWithConfirmDialog";
 
-function createFormValidator(name) {
-  const validator = new FormValidator(validationOptions, document.forms[name]);
-  validator.enableValidation();
-  return validator;
-}
+const api = new Api(apiConfig);
 
 const userInfoValidator = createFormValidator('profile');
 const cardFormValidator = createFormValidator('card');
@@ -21,6 +17,24 @@ const avatarFormValidator = createFormValidator('avatar');
 
 const profileInfoEditButton = document.querySelector(userInfoSelectors.editButton);
 const cardAddButton = document.querySelector(userInfoSelectors.addCardButton);
+
+const cardsContainer = new Section(
+  {renderer: createCardElement},
+  '.elements__list'
+);
+
+const popupAvatarForm = new PopupWithForm(popupSelectors.popupEditAvatar, handleSubmitAvatar);
+const userInfo = new UserInfo(userInfoSelectors, openAvatarEdit);
+const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleSubmitProfile);
+const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
+const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
+const popupDeleteCard = new PopupWithConfirmDialog(popupSelectors.popupDeleteCard, deleteCard);
+
+function createFormValidator(name) {
+  const validator = new FormValidator(validationOptions, document.forms[name]);
+  validator.enableValidation();
+  return validator;
+}
 
 function openCardDetails(image) {
   popupViewCard.open(image);
@@ -49,17 +63,10 @@ function likeCard(hasUserLike, cardId, card) {
 }
 
 function createCardElement(data) {
-  const card = new Card(userInfo.getUserInfo().id, data, '#element-template', openCardDetails, openDeleteCardDialog, likeCard);
+  const card = new Card(userInfo.getUserInfo().id, data, '#element-template',
+    openCardDetails, openDeleteCardDialog, likeCard);
   return card.generateDomElement();
 }
-
-const cardsContainer = new Section(
-  {renderer: createCardElement},
-  '.elements__list'
-);
-
-const popupViewCard = new PopupWithImage(popupSelectors.popupViewCard);
-popupViewCard.setEventListeners();
 
 function handleSubmitAvatar(formData) {
   const submitText = "Сохранить";
@@ -75,17 +82,12 @@ function handleSubmitAvatar(formData) {
     });
 }
 
-const popupAvatarForm = new PopupWithForm(popupSelectors.popupEditAvatar, handleSubmitAvatar);
-popupAvatarForm.setEventListeners();
-
 function openAvatarEdit() {
   popupAvatarForm.setValues({avatar: ''});
   avatarFormValidator.validateForm();
   avatarFormValidator.hideFormErrorMessages();
   popupAvatarForm.open();
 }
-
-const userInfo = new UserInfo(userInfoSelectors, openAvatarEdit);
 
 function handleSubmitProfile(userData) {
   const submitText = "Сохранить";
@@ -101,9 +103,6 @@ function handleSubmitProfile(userData) {
     })
 }
 
-const popupUserInfo = new PopupWithForm(popupSelectors.popupEditProfile, handleSubmitProfile);
-popupUserInfo.setEventListeners();
-
 function handleSubmitAddCard(cardData) {
   const submitText = "Создать";
   popupAddCard.setSubmitText(`${submitText}...`);
@@ -118,19 +117,11 @@ function handleSubmitAddCard(cardData) {
     });
 }
 
-const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
-popupAddCard.setEventListeners();
-
-const popupDeleteCard = new PopupWithConfirmDialog(popupSelectors.popupDeleteCard, deleteCard);
-popupDeleteCard.setEventListeners();
-
 function openUserInfoEditForm() {
   popupUserInfo.setValues(userInfo.getUserInfo());
   userInfoValidator.validateForm();
   popupUserInfo.open();
 }
-
-profileInfoEditButton.addEventListener('click', openUserInfoEditForm);
 
 function openAddCardForm() {
   cardFormValidator.validateForm();
@@ -138,9 +129,13 @@ function openAddCardForm() {
   popupAddCard.open();
 }
 
+profileInfoEditButton.addEventListener('click', openUserInfoEditForm);
 cardAddButton.addEventListener('click', openAddCardForm);
-
-const api = new Api(apiConfig);
+popupAvatarForm.setEventListeners();
+popupUserInfo.setEventListeners();
+popupAddCard.setEventListeners();
+popupViewCard.setEventListeners();
+popupDeleteCard.setEventListeners();
 
 Promise.all([
   api.getUserInfo(),
