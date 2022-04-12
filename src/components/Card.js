@@ -2,9 +2,10 @@ import {hasItems, isUndefined} from "../util/predicates.js";
 
 class Card {
 
-  constructor(userId, card, templateSelector, handleCardClick, handleDeleteClick, handleLikeClick) {
+  constructor(userId, card, cardElementSelectorClass, templateSelector, handleCardClick, handleDeleteClick, handleLikeClick) {
     this._userId = userId;
     this._card = card;
+    this._cardElementSelectorClass = cardElementSelectorClass;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteClick = handleDeleteClick;
@@ -15,6 +16,7 @@ class Card {
   generateDomElement() {
     const cardElementTemplate = document.querySelector(this._templateSelector).content;
     this._element = cardElementTemplate.querySelector('.element').cloneNode(true);
+    this._element.classList.add(this._cardElementSelectorClass);
     this._initCardPhoto();
     this._initCardName();
     this._initCardLikes();
@@ -53,7 +55,7 @@ class Card {
       const trashButtonElement = this._element.querySelector('.element__trash-btn');
       trashButtonElement.classList.add('element__trash-btn_active');
       trashButtonElement.addEventListener('click', (e) => {
-        this._handleDeleteClick(this._card._id, this._element)
+        this._handleDeleteClick(this._card._id)
       });
     }
   }

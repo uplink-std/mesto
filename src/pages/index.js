@@ -8,6 +8,7 @@ import {UserInfo} from "../components/UserInfo.js";
 import {Section} from "../components/Section.js";
 import { RestClient } from "../components/RestClient.js";
 import { Api } from "../components/Api.js";
+import {isDefined} from "../util/predicates";
 
 function createFormValidator(name) {
   const validator = new FormValidator(validationOptions, document.forms[name]);
@@ -26,13 +27,27 @@ function openCardDetails( image ) {
   popupViewCard.open( image );
 }
 
-function deleteCard(cardId, cardElement) {
-  // open confirm popup
+function deleteCard(cardId) {
+  popupDeleteCard.setValues({cardId: cardId});
   popupDeleteCard.open();
+}
+
+function generateCardElementSelectorClass(cardId) {
+  return `element_card-id_${cardId}`;
+}
+
+function handleSubmitDeleteCard(formData) {
+  const cardId = formData.cardId;
   api.deleteCard(cardId)
     .then( (result) => {
-      console.log(result.message);
-      cardElement.remove();
+      console.log(JSON.stringify(result));
+      const cardSelector = `.${generateCardElementSelectorClass(cardId)}`;
+      const cardElement = document.querySelector(cardSelector);
+      if (isDefined(cardElement) ) {
+        cardElement.remove();
+      } else {
+        console.log(`ERROR: card with selector "${cardSelector}" not found!`);
+      }
     })
     .catch(error => console.log(error))
     .finally( () => {
@@ -50,7 +65,7 @@ function likeCard(hasUserLike, cardId, card) {
 }
 
 function createCardElement(data) {
-    const card = new Card(userInfo.getUserInfo().id, data, '#element-template', openCardDetails, deleteCard, likeCard);
+    const card = new Card(userInfo.getUserInfo().id, data, generateCardElementSelectorClass(data._id), '#element-template', openCardDetails, deleteCard, likeCard);
     return card.generateDomElement();
 }
 
@@ -102,7 +117,7 @@ function handleSubmitAddCard(cardData) {
 const popupAddCard = new PopupWithForm(popupSelectors.popupAddCard, handleSubmitAddCard);
 popupAddCard.setEventListeners();
 
-const popupDeleteCard = new PopupWithForm(popupSelectors.popupDeleteCard, (cardId) => console.log(`Deleting card ${cardId}`));
+const popupDeleteCard = new PopupWithForm(popupSelectors.popupDeleteCard, handleSubmitDeleteCard);
 popupDeleteCard.setEventListeners();
 
 function openUserInfoEditForm() {
