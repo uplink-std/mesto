@@ -1,7 +1,13 @@
+import {isDefined} from "../util/predicates";
+
 class Api {
 
-    constructor(restClient) {
-        this._restClient = restClient;
+    constructor({baseUrl, token}) {
+        this._baseUrl = baseUrl;
+        this._headers = {
+            "authorization": token,
+            "Content-Type": "application/json; charset=utf-8"
+        };
     }
 
     /**
@@ -9,7 +15,7 @@ class Api {
      * GET https://nomoreparties.co/v1/{cohortId}/users/me
      */
     getUserInfo() {
-        return this._restClient.read("users/me");
+        return this._read("users/me");
     }
 
     /**
@@ -17,7 +23,7 @@ class Api {
      * GET https://mesto.nomoreparties.co/v1/{cohortId}/cards
      */
     getCards() {
-        return this._restClient.read("cards");
+        return this._read("cards");
     }
 
     /**
@@ -25,7 +31,7 @@ class Api {
      * PATCH https://mesto.nomoreparties.co/v1/{cohortId}/users/me
      */
     updateUserInfo({ name, about }) {
-        return this._restClient.updatePartially("users/me", { name, about });
+        return this._updatePartially("users/me", { name, about });
     }
 
     /**
@@ -33,7 +39,7 @@ class Api {
      * POST https://mesto.nomoreparties.co/v1/{cohortId}/cards
      */
     createCard({ name, link }) {
-        return this._restClient.create("cards", { name, link });
+        return this._create("cards", { name, link });
     }
 
     /**
@@ -41,7 +47,7 @@ class Api {
      * DELETE https://mesto.nomoreparties.co/v1/cohortId/cards/cardId
      */
     deleteCard(cardId) {
-        return this._restClient.delete(`cards/${cardId}`);
+        return this._delete(`cards/${cardId}`);
     }
 
     /**
@@ -51,9 +57,9 @@ class Api {
      */
     setLike(isLiked, cardId) {
         if (isLiked) {
-            return this._restClient.update(`cards/${cardId}/likes`);
+            return this._update(`cards/${cardId}/likes`);
         }
-        return this._restClient.delete(`cards/${cardId}/likes`);
+        return this._delete(`cards/${cardId}/likes`);
     }
 
     /**
@@ -61,7 +67,50 @@ class Api {
      * PATCH https://mesto.nomoreparties.co/v1/cohortId/users/me/avatar
      */
     updateUserAvatar(avatarUrl) {
-        return this._restClient.updatePartially(`users/me/avatar`, { avatar: avatarUrl });
+        return this._updatePartially(`users/me/avatar`, { avatar: avatarUrl });
+    }
+
+    _create(resource, data) {
+        return this._callApi('POST', resource, data);
+    }
+
+    _read(resource) {
+        return this._callApi('GET', resource);
+    }
+
+    _updatePartially(resource, data) {
+        return this._callApi('PATCH', resource, data);
+    }
+
+    _update(resource, data) {
+        return this._callApi('PUT', resource, data);
+    }
+
+    _delete(resource) {
+        return this._callApi('DELETE', resource);
+    }
+
+    _callApi(method, resource, data) {
+        const request = { method: method, headers: this._headers }
+
+        if (isDefined(data)) {
+            request.body = JSON.stringify(data);
+        }
+
+        return fetch(`${this._baseUrl}/${resource}`, request)
+          .then(this._getAsJson)
+          .catch(this._rejectWithError);
+    }
+
+    _getAsJson(response) {
+        if (response.ok) {
+            return response.json();
+        }
+        return Promise.reject(`ERROR: code=${response.status} msg=${response.statusText}`);
+    }
+
+    _rejectWithError(error) {
+        return Promise.reject(`ERROR: ${error}`)
     }
 }
 

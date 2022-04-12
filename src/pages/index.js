@@ -6,9 +6,7 @@ import {PopupWithImage} from "../components/PopupWithImage.js";
 import {PopupWithForm} from "../components/PopupWithForm.js";
 import {UserInfo} from "../components/UserInfo.js";
 import {Section} from "../components/Section.js";
-import {RestClient} from "../components/RestClient.js";
 import {Api} from "../components/Api.js";
-import {isDefined} from "../util/predicates";
 import {PopupWithConfirmDialog} from "../components/PopupWithConfirmDialog";
 
 function createFormValidator(name) {
@@ -142,8 +140,7 @@ function openAddCardForm() {
 
 cardAddButton.addEventListener('click', openAddCardForm);
 
-const restClient = new RestClient(apiConfig);
-const api = new Api(restClient);
+const api = new Api(apiConfig);
 
 Promise.all([
   api.getUserInfo(),
